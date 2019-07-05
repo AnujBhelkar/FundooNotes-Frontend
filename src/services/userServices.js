@@ -20,7 +20,7 @@
   * @param {* get the data from frontend for store } userData 
   */
  export function login(userData) {
-    return axois.post(baseUrl+'/login',userData)
+    return axois.post('/login',userData)
 }
 
  /** 

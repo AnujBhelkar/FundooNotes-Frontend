@@ -42,9 +42,6 @@
   border: 1px solid rgba(170, 161, 161, 0.5);
  }
 
-.registerAppBar {
-  /* display: flex; */
-}
 
 .registerHeader {
   text-decoration: cornflowerblue;
@@ -148,6 +145,10 @@
   margin-left: 6%  
 }
 
+.errorValidation {
+  color: red;
+  font-size: small
+}
 /***********************************login css**************************************************/
 .loginBox {
   margin-top: 7%;
@@ -202,4 +203,40 @@
 }
 .forgotSumbit{
   margin-left: 28%;
+}
+/**************************************DASHBOARD**********************************************/
+.topBar {
+  position: "static";
+  background : '#2E3B55';
+}
+/*************************************Drawer Menu ************************************************/
+#noteMenu {
+  font-family: Google Sans, Roboto, Arial, sans-serif;
+  height: 30px;
+  font-size: .875rem;
+  font-weight: 550;
+  color: #424242;
+}
+#reminderMenu{
+  font-family: Google Sans, Roboto, Arial, sans-serif;
+  height: 30px;
+  font-size: .875rem;
+  font-weight: 550;
+  color: #424242;
+
+}
+/*********************************App BAr***************************************************************/
+.appBarClass{
+  display: flex
+}
+.drawerMenu{
+  margin-top: 5%;
+}
+.fundooImageText{
+  display: flex;
+  justify-content: space-around
+}
+.fundooName{
+  margin-top: 10%;
+  color: #282c34;
 }
