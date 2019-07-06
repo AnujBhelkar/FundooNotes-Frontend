@@ -209,6 +209,10 @@
   position: "static";
   background : '#2E3B55';
 }
+.dashboard{
+  /* display: flex;
+  justify-content: space-between; */
+}
 /*************************************Drawer Menu ************************************************/
 #noteMenu {
   font-family: Google Sans, Roboto, Arial, sans-serif;
@@ -226,6 +230,12 @@
 
 }
 /*********************************App BAr***************************************************************/
+.toolbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
 .appBarClass{
   display: flex
 }
@@ -234,9 +244,67 @@
 }
 .fundooImageText{
   display: flex;
-  justify-content: space-around
+  justify-content: space-around;
+  width: 23%;
 }
 .fundooName{
   margin-top: 10%;
   color: #282c34;
+}
+.searchIcon{
+  width: 40%;
+  color: gray;
+}
+.search{
+  display: flex;
+  position: static;
+  background-color: whitesmoke;
+  width: 630px;
+  height: 46px;
+  margin-left: 7%;
+  border-radius: 18px;
+  align-items: center;
+}
+.searchInput{
+  margin-left: -30%;
+}
+#searchInputBase {
+  width : 442px;
+}
+.refreshGridProfile {
+  display: flex;
+
+}
+
+/*****************************************createNote**************************************************/
+.createNote{
+  display: flex;
+    justify-content: center;
+    margin-top: 2%;
+    /* box-shadow: 0px 0px 6px; */
+    position: relative;
+    line-height: 10%;
+}
+#noteCard{
+  width: 45%;
+}
+#inputBaseTitle{
+  padding-left: 10%;
+  width: 400px;
+}
+#inputBaseTakeANote{
+  padding-left: 10%;
+  width: 400px;
+}
+#noteCard1{
+  width: 45%;
+  border-radius: 9px;
+  box-shadow: 0px 1px 3px 0px;
+}
+.notesComponent{
+  display: flex;
+}
+.reminderComponent{ 
+  width: 5%;
+  left: 1%;
 }

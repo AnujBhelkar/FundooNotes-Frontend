@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import AppBarComponent from '../components/appBar'
+import CreateNote from '../components/createNote'
 class DashboardPage extends Component {
     constructor(props) {
         super(props)
@@ -21,12 +22,17 @@ class DashboardPage extends Component {
         const slidingCards = this.state.slideCards ? "beforeSlide" : "afterSlide"; 
         return (
             <div>
-                <div className = {slidingCards}>
-                    <AppBarComponent 
-                        props = {this.props}
-                        slideCards={this.slideCards}
-                    />
-                </div> 
+                <div className = "dashboard">
+                    <div className = {slidingCards}>
+                        <AppBarComponent 
+                            props = {this.props}
+                            slideCards={this.slideCards}
+                        />
+                    </div> 
+                    <div>
+                        <CreateNote/>
+                    </div>
+                </div>
             </div>
         )
     }
