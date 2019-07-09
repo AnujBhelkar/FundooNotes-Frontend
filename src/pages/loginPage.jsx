@@ -53,10 +53,14 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
           
           login(data)
             .then((response) => {
-                console.log("Login Successfully !!! ")
+                console.log("Login Successfully !!! ",response)
+                localStorage.setItem('id',response.data.token)
+                console.log(this.props);
+                
+                this.props.history.push('/dashboard')
             })
             .catch((err) => {
-                    console.log( "Login Unsuccessfull !! ");
+                    console.log( "Login Unsuccessfull !! ",err);
             })
       }
       
@@ -93,6 +97,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
                                 margin = 'dense'
                                 value={this.state.password}
                                 onChange={this.passwordHandler.bind(this)}
+                                
                                 InputProps={{
                                     endAdornment: (
                                             <InputAdornment position="end">
