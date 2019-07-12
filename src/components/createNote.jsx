@@ -16,14 +16,17 @@ export class createNote extends Component {
         super(props)
     
         this.state = {
+            notes:{},
              open : false,
              title : '',
-             description : ''
+             description : '',
+             color : ''
         }
         this.titleHandler =  this.titleHandler.bind(this)
         this.descriptionHandler =  this.descriptionHandler.bind(this)
         this.clickNotes = this.clickNotes.bind(this)
         this.saveNotes = this.saveNotes.bind(this)
+        this.handleColor = this.handleColor.bind(this)
     }
     clickNotes = event => {
         event.preventDefault();
@@ -39,6 +42,12 @@ export class createNote extends Component {
         const description = event.target.value;
         this.setState({ description : description })
     }
+    handleColor = value => {
+        const color = value
+        this.setState({ color : color })
+        console.log("create note",value);
+        
+    }
 
     saveNotes = event => {
         event.preventDefault();
@@ -50,12 +59,21 @@ export class createNote extends Component {
         }
         createNotes(data,token)
             .then(response => {
-                console.log("note created Successfully !! ",response);
+                console.log("note created Successfully !! ",response.data.result);
+                this.setState({
+                        notes:response.data.result
+                })
+
+                this.props.createNoteProps(this.state.notes)
+
+                console.log(this.createNoteProps);
                 
             })
+            
             .catch(err => {
                 console.log("Error in creating Note",err);
             })
+
         this.setState({
             title : "",
             description : ""

@@ -39,3 +39,25 @@ export function getNotes() {
         }
     })
 }
+/**
+ * @description :  Here create function for archive notes
+ */
+export function archive(data) {
+    return Axios.post(baseUrl+"/archive",data,{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}
+/**
+ * @description :  Here create function for getting archive Notes
+ */
+export function getArchiveNotes() {
+    return Axios.post(baseUrl+"/getArchiveNotes",{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}

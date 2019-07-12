@@ -8,11 +8,23 @@ class DashboardPage extends Component {
     
         this.state = {
              slideCards : false,
-             grid : false
+             grid : false,
+             archiveOpen : '',
+             archiveNotes : '',
+             trashNotes : '',
+             reminderNotes : ''
         }
+        this.createcard=React.createRef()
         this.slideCards = this.slideCards.bind(this)
+       // this.createcard = this.createcard.bind(this)
+
         // this.cardView = this.cardView.bind(this)
         
+    }
+    createNoteProps=(newcard)=>{
+        console.log(newcard);
+        
+        this.createcard.current.displayCard(newcard)
     }
     slideCards() {
         try{
@@ -32,6 +44,28 @@ class DashboardPage extends Component {
             console.log(" Error in cards view ")
         }
     }
+    archiveOpenAppBarToDashboard = (archiveNotes,trashNotes,reminderNotes)=>{
+        console.log("Notes Value in Dashboard ==>",archiveNotes,trashNotes,reminderNotes);
+        
+        if(archiveNotes === true || trashNotes === true || reminderNotes === true ){
+            this.setState({
+                archiveNotes:archiveNotes,
+                trashNotes:trashNotes,
+                reminderNotes:reminderNotes
+            })
+        }
+        else{
+            this.setState({
+                archiveNotes:false,
+                trashNotes:false,
+                reminderNotes:false
+            })
+        }
+    }
+    // archiveOpen(value){
+    //     // this.setState({archiveOpen: value})
+    //     this.props.archiveOpenDashboardToNotes(value)
+    // }
     
     render() {
         const slidingCards = this.state.slideCards ? "beforeSlide" : "afterSlide"; 
@@ -44,16 +78,23 @@ class DashboardPage extends Component {
                             slideCards={this.slideCards}
                             // cardView = {this.cardView}
                             cardViewProps={this.grid}
+                            archiveOpenAppBarToDashboard = {this.archiveOpenAppBarToDashboard}
                         />
                     </div> 
                     <div>
-                        <CreateNote/>
+                        <CreateNote
+                        createNoteProps={this.createNoteProps}
+                        />
                     </div>
                     <div>
                         <Notes
+                            ref={this.createcard}
                             props = {this.props}
                             // cardViewProps = {this.state.cardView}
                             grid = {this.state.grid}
+                            archiveNotes = {this.state.archiveNotes}
+                            trashNotes = {this.state.trashNotes}
+                            reminderNotes = {this.state.reminderNotes}
                         />
                     </div>
                 </div>

@@ -16,12 +16,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Search from '@material-ui/icons/Search'
 import GridView from '@material-ui/icons/ViewAgendaOutlined'
 import ListView from '@material-ui/icons/BorderAllRounded';
-import Profile from '@material-ui/icons/AccountCircle'
 import Drawer from './drawerMenu';
 import InputBase from '@material-ui/core/InputBase'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 
 import '../App.css'
+import UserProfileComponent from '../components/userProfile';
 
 const theme = createMuiTheme({
     overrides: {
@@ -49,13 +49,19 @@ export class appBar extends React.Component {
             open: '',
             searchInput: '',
             grid: false,
-            
         }
         this.toggleHandle = this.toggleHandle.bind(this)
         this.searchInputHandler = this.searchInputHandler.bind(this)
         this.refreshHandler = this.refreshHandler.bind(this)
+        this.archiveOpen = this.archiveOpen.bind(this)
         // this.gridHandler = this.gridHandler.bind(this)
-        this.signOut = this.signOut.bind(this)
+     //   this.signOut = this.signOut.bind(this)
+    }
+    archiveOpen(value){
+        // this.setState({ archiveOpen : value})
+        console.log("=-=>",value);
+        this.props.archiveOpenAppBarToDashboard(value)
+        
     }
     toggleHandle = () => {
         try {
@@ -88,18 +94,13 @@ export class appBar extends React.Component {
         
         this.props.cardViewProps(!this.state.grid)
     }
-    signOut = event => {
-        event.preventDefault();
-        localStorage.clear()
-        console.log(this.props);
-
-        this.props.props.history.push('/login')
-    }
     render() {
+        console.log("fsadfadskjf34",this.props.archiveOpen);
+        
         return (
             <MuiThemeProvider theme={theme}>
                 <div className="toolbar">
-                    <AppBar position="static">
+                    <AppBar position="relative">
                         <Toolbar style={{ backgroundColor: 'white' }} >
                             <Tooltip title="Menu" >
                                 <IconButton color="default" aria-label="Open drawer">
@@ -110,6 +111,7 @@ export class appBar extends React.Component {
                                 <Drawer
                                     className="drawerMenu"
                                     appBarProps={this.state.open}
+                                    archiveOpen = {this.archiveOpen}
                                 />
 
                                 <div className="fundooImageText">
@@ -161,11 +163,9 @@ export class appBar extends React.Component {
                                                 <GridView></GridView>
                                             </IconButton>
                                     }
-                                    <IconButton>
-                                        <Tooltip title="Fundoo Account">
-                                            <Profile onClick={this.signOut} />
-                                        </Tooltip>
-                                    </IconButton>
+                                    
+                                          <UserProfileComponent props = {this.props}/>
+                                        
                                 </div>
                             </div>
                         </Toolbar>

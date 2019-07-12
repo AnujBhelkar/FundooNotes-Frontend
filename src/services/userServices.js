@@ -8,6 +8,7 @@
  * @description : importing 'axios' package for sending data  
  */
  import axois from 'axios'
+import Axios from 'axios';
 
  var baseUrl = 'http://localhost:4000';
  /** 
@@ -40,5 +41,17 @@
          headers : {
             token : token
          }
+   })
+}
+/**
+ * @param : {* } profilePic
+ */
+export function uploadProfilePic(data){
+   console.log("profile upload Data ==>",data);
+   
+   return Axios.post(baseUrl+'/upload',data,{
+      headers : {
+         token : localStorage.getItem('id')
+      }
    })
 }

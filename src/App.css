@@ -229,6 +229,27 @@
   color: #424242;
 
 }
+.demo{
+   height: 100%;
+}
+
+  .MuiDrawer-paper-72 {
+    margin-top: 5%;
+    width: 225px;
+    
+
+}
+.MuiDrawer-paper-72 {
+  top: 71px;
+  flex: 1 0 auto;
+  height: 100%;
+  display: flex;
+  outline: none;
+  z-index: 1200;
+  position: fixed;
+  overflow-y: auto;
+  flex-direction: column;
+}
 /*********************************App BAr***************************************************************/
 .toolbar{
   display: flex;
@@ -326,8 +347,9 @@
 }
 /********************************************Note Component ********************************************/
 #allNotesListView{
-  width: 70%;
+  width: 50%;
   border-radius: 9px;
+  margin-top: 1%;
   box-shadow: 0px 1px 3px 0px;
 }
 #allNotesGrid{
@@ -345,9 +367,37 @@
 .notesGridView{
   display: flex;
   flex-wrap: wrap;
-  margin-left: 22%;
-  margin-top: 3%;
+  margin-left: 20%;
+  margin-top: 1%;
+  margin-bottom: 3%;
+  justify-content: space-around;
 }
 .noteCard{
   width: 100%;
+  margin-top: 7%;
+}
+.noteTitle{
+  font-family: inherit;
+  padding-left: 5%;
+  padding-top: 3%;
+}
+.noteDescription{
+  padding-left: 5%;
+  padding-top: 6px;
+  font-size: 94%;
+  font-family: sans-serif;
+}
+/**************************************Color Box****************************************************/
+.colorCardHandler{
+  flex-wrap: wrap;
+  width: 55%
+}
+
+#afterCard{
+  width: 80%;
+}
+/****************************************userprofile*************************************************/
+#logoutButton{
+  margin-top: 3%;
+  margin-left: 67%;
 }

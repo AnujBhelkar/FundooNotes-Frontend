@@ -55,6 +55,9 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
             .then((response) => {
                 console.log("Login Successfully !!! ",response)
                 localStorage.setItem('id',response.data.token)
+                localStorage.setItem('email',response.data.result.email)
+                localStorage.setItem('userName',response.data.result.firstName)
+                localStorage.setItem('profilePic',response.data.result.imageUrl)
                 console.log(this.props);
                 
                 this.props.history.push('/dashboard')
