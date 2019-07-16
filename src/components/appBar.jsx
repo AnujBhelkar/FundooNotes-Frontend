@@ -57,10 +57,10 @@ export class appBar extends React.Component {
         // this.gridHandler = this.gridHandler.bind(this)
      //   this.signOut = this.signOut.bind(this)
     }
-    archiveOpen(value){
+    archiveOpen(archive,trash,reminder){
         // this.setState({ archiveOpen : value})
-        console.log("=-=>",value);
-        this.props.archiveOpenAppBarToDashboard(value)
+        console.log("=-=>",archive,trash,reminder);
+        this.props.archiveOpenAppBarToDashboard(archive,trash,reminder)
         
     }
     toggleHandle = () => {

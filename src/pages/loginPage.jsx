@@ -1,5 +1,5 @@
 /***************************************************************************************
- * @Purpose     : To Create for building logic of Login pasge
+ * @Purpose     : To Create for building logic of Login page
  * @file        : loginComponent.jsx
  * @author      : Anuj
  * @since       : 29/06/2019

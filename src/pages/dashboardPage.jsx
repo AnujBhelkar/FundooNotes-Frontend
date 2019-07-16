@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AppBarComponent from '../components/appBar'
 import CreateNote from '../components/createNote'
 import Notes from '../components/notes'
+// import DialogTest from '../components/dialogTest';
 class DashboardPage extends Component {
     constructor(props) {
         super(props)
@@ -97,7 +98,9 @@ class DashboardPage extends Component {
                             reminderNotes = {this.state.reminderNotes}
                         />
                     </div>
+                    
                 </div>
+               
             </div>
         )
     }

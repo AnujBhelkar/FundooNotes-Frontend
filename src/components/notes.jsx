@@ -7,141 +7,269 @@
 import React, { Component } from 'react'
 import Tools from '../components/tools'
 import Card from '@material-ui/core/Card'
-import { getNotes,getArchiveNotes } from '../services/noteServices'
+import { getNotes, getArchiveNotes, updateTitle, updateDescription, updateColor,trash } from '../services/noteServices'
+import Dialog from '../components/dialogBox'
+import TrashOptions from '../components/trashOptions'
 export class NotesComponent extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
             notes: [],
-            noteId : '',
-            archive : [],
-            trash : [],
-            archiveNoteCard : []
+            open: false,
+            // noteId : '',
+            // archive: [],
+            // trash : [],
+            // archiveNoteCard : []
 
         }
+        this.cardToDialogBox = React.createRef()
         this.displayCard = this.displayCard.bind(this)
+        this.handleClick = this.handleClick.bind(this)
+        this.editTitle = this.editTitle.bind(this)
+        this.editDescription = this.editDescription.bind(this)
+        this.closeDialogBox = this.closeDialogBox.bind(this)
+        this.changeColor = this.changeColor.bind(this)
+        this.trashNote = this.trashNote.bind(this)
+
+        // this.getArchiveNotes = this.getArchiveNotes.bind
         //this.noteIdHandler = this.noteIdHandler.bind(this)
 
 
     }
-    getArchiveNotes = () => {
-        getArchiveNotes()
-            .then(response =>{
-                console.log(response);
-                
+    // getArchiveNotes = () => {
+
+    // }
+    async handleClick(note) {
+        console.log("note ==> ", note)
+        this.cardToDialogBox.current.getData(note);
+        await this.setState({ open: true })
+    }
+    editTitle(title, noteId) {
+        const data = {
+            title: title,
+            noteId: noteId
+        }
+        console.log("Data of Edit Title ==> ", data);
+
+        updateTitle(data)
+            .then(res => {
+                console.log("Title Updated", res);
+
             })
             .catch(err => {
-                console.log("error in getting archive Notes");
-                
+                console.log("error in editing title", err);
+
+            })
+    }
+    editDescription(description, noteId) {
+        const data = {
+            description: description,
+            noteId: noteId
+        }
+        updateDescription(data)
+            .then(res => {
+                console.log("Description Updated", res);
+
+            })
+            .catch(err => {
+                console.log("error in editing description", err);
+
             })
     }
 
+    async changeColor(color, noteId) {
+        const colorData = {
+            noteId: noteId,
+            color: color
+        }
+        await updateColor(colorData)
+            .then(res => {
+                console.log("update color successfully", res);
+                getNotes()
+                    .then(response => {
+                        console.log("all Notes", response.data.result);
+
+                        this.setState({ notes: response.data.result })
+                    })
+                    .catch(err => {
+                        console.log("Error in getting Notes", err);
+
+                    })
+
+            })
+            .catch(err => {
+                console.log("Error in update color", err);
+
+            })
+    }
+    closeDialogBox(e) {
+        console.log("value of close Dialog box", e);
+        this.setState({ open: !this.state.open })
+    }
+    async trashNote(noteId){
+        const data = {
+            noteId : noteId
+        }
+        await trash(data)
+            .then(res => {
+                console.log("Note Trashed");
+                getNotes()
+                    .then(response => {
+                        console.log("all Notes", response.data.result);
+        
+                        this.setState({ notes: response.data.result })
+                    })
+                    .catch(err => {
+                        console.log("Error in getting Notes", err);
+        
+                    })
+                
+            })
+            .catch(err => {
+                console.log("Error in Trashed Note");
+                
+            })
+
+    }
     componentDidMount = () => {
         getNotes()
             .then(response => {
                 console.log("all Notes", response.data.result);
-                // console.log("all Notes 12", response.data.result[0].trash);
-                
-                // for(var i = 0 ; i < response.data.result.length ; i++ ){
-                            
-                //         // console.log("GAnes",response.data.result[i]);                    
-                //      if(response.data.result[i].archive === false && response.data.result[i].trash === false){
-                //         this.setState({ notes : response.data.result})
-                //         console.log(" notes ",this.state.notes);
-                //     }
-                //     else if(response.data.result[i].trash === true){
-                //         this.setState({ trash : response.data.result[i]})
-                //         // console.log("GAnes",response.data.result[i]);     
-                //     }
-                //     else if(response.data.result[i].archive === true){
-                //         this.setState({ archive : response.data.result[i]})
-                //         console.log("Archive notes ",this.state.archive);
-                //     }
-            
-                // }
-                this.setState({ notes : response.data.result})
+
+                this.setState({ notes: response.data.result })
             })
             .catch(err => {
                 console.log("Error in getting Notes", err);
 
             })
-        };
+        // getArchiveNotes()
+        //     .then(response => {
+        //         console.log(response);
+        //         this.setState({ archive: response.data.result })
+
+        //     })
+        //     .catch(err => {
+        //         console.log("error in getting archive Notes");
+
+        //     })
+
+    };
 
 
+    displayCard = (newcard) => {
+        console.log("newcard==>", newcard);
 
-//      noteIdHandler=(noteId)=>{
-//         //  console.log(value);
-         
-//         //this.setState({archive : !this.state.archive})
-    
-//         var data ={
-//             noteId : [noteId],
-//             archive : !this.state.archive
-
-//         }
-//         console.log("noooooooooooop",data);
-        
-//         archive(data)
-//             .then(response => {
-//                 console.log("archive successfully",response);
-                
-//             })
-//             .catch(err => {
-//                 console.log("error in getting notes");
-                
-//             })
-    
-// }
-    displayCard=(newcard)=>{
-        console.log("newcard==>",newcard);
-        
         this.setState({
-            notes:[...this.state.notes,newcard]
+            notes: [...this.state.notes, newcard]
         })
     }
     // archiveOpenDashboardToNotes(value){
     //     console.log("++++++++++++++>",value);
-        
+
     // }
 
 
-    
-    render() {
-        // var typeOfData;
-        if(this.props.archiveNotes === true){
-            
-        }
-        const grid = this.props.grid? 'afterCard' : null;
-            // console.log(CardView);
-            console.log("archiedsbkjf",this.props.archiveOpen);
-            
-        var notearr = this.state.notes.map((key) => {
 
-            // let noteArray = otherArray(this.state.notes)
-            // console.log("all notes", key._id);
-            return ( 
-                 (this.props.archiveNotes && this.props.reminderNotes && this.props.trashNotes  === false ?  
-                    <div id={grid}>
-                            <Card className = "noteCard">
-                                <div className = "noteTitle">
+    render() {
+        const grid = this.props.grid ? 'afterCard' : null;
+        // console.log(CardView);
+        // console.log("archiedsbkjf",this.props.archiveOpen);
+        console.log(this.props.archiveNotes, this.props.reminderNotes, this.props.trashNotes);
+
+        if (this.props.archiveNotes === true) {
+            var notearr = this.state.notes.map((key) => {
+                if(key.archive === true){
+                // let noteArray = otherArray(this.state.notes)
+                // console.log("all notes", key._id);
+                return (
+
+                    <div id={grid} >
+                        <Card className="noteCard" style={{ backgroundColor: key.color }}>
+                            <div onClick={() => this.handleClick(key)}>
+                                <div className="noteTitle">
                                     {key.title}
                                 </div>
-                                <div className = "noteDescription">
+                                <div className="noteDescription">
                                     {key.description}
                                 </div>
+                            </div>
+                            <Tools
+                                //toolsToNotesProps = {this.noteIdHandler(key._id)}
+                                noteID={key._id}
+                                changeColor={this.changeColor}
+                                trashNote = {this.trashNote}
+                            />
+                        </Card>
+                    </div>
+                )
+                }
+            })
+        }
+        else if(this.props.trashNotes === true) {
+            var notearr = this.state.notes.map((key) => {
+                if(key.trash === true){
+                // let noteArray = otherArray(this.state.notes)
+                // console.log("all notes", key._id);
+                return (
+                    <div id={grid} >
+                        <Card className="noteCard" style={{ backgroundColor: key.color }}>
+                            <div onClick={() => this.handleClick(key)}>
+                                <div className="noteTitle">
+                                    {key.title}
+                                </div>
+                                <div className="noteDescription">
+                                    {key.description}
+                                </div>
+                            </div>
+                            <TrashOptions/>
+                        </Card>
+                    </div>
+                )
+                }
+            })
+        }
+        else {
+            var notearr = this.state.notes.map((key) => {
+                if (key.archive === false && key.trash === false) {
+                    // let noteArray = otherArray(this.state.notes)
+                    // console.log("all notes", key._id);
+                    return (
+
+                        <div id={grid} >
+                            <Card className="noteCard" style={{ backgroundColor: key.color }}>
+                                <div onClick={() => this.handleClick(key)}>
+                                    <div className="noteTitle">
+                                        {key.title}
+                                    </div>
+                                    <div className="noteDescription">
+                                        {key.description}
+                                    </div>
+                                </div>
                                 <Tools
-                                        //toolsToNotesProps = {this.noteIdHandler(key._id)}
-                                        noteID = {key._id}
-                                    />
+                                    //toolsToNotesProps = {this.noteIdHandler(key._id)}
+                                    noteID={key._id}
+                                    changeColor={this.changeColor}
+                                    trashNote = {this.trashNote}
+                                />
                             </Card>
-                    </div> 
-                  : (null))
-            )
-        })
+                        </div>
+                    )
+                }
+            })
+        }
         return (
-            <div className ="notesGridView">
-                {notearr}
+            <div>
+                <div className="notesGridView">
+                    {notearr}
+                </div>
+                <Dialog
+                    ref={this.cardToDialogBox}
+                    parentOpen={this.state.open}
+                    editTitle={this.editTitle}
+                    editDescription={this.editDescription}
+                    closeDialogBox={this.closeDialogBox}
+                />
             </div>
         )
     }

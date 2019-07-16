@@ -148,6 +148,7 @@ export default class Logout extends Component {
                 open: state.placement !== placement || !state.open,
                 placement,
             }));
+            // console.log("State is ",this.state)
         } catch (err) {
             console.log("error at handleClick in userProfile");
         }

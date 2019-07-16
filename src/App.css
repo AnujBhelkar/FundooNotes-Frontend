@@ -285,6 +285,7 @@
   margin-left: 7%;
   border-radius: 18px;
   align-items: center;
+  margin-top: 3px;
 }
 .searchInput{
   margin-left: -30%;
@@ -400,4 +401,12 @@
 #logoutButton{
   margin-top: 3%;
   margin-left: 67%;
+}
+/********************************Dialog Box *********************************************************/
+#cardOnDialogBox{
+  width: 100%
+}
+.dialogBox{
+  margin-top: -8%;
+
 }

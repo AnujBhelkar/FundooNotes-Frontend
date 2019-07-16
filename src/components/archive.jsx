@@ -20,8 +20,7 @@ export class ArchiveComponent extends Component {
             // // console.log("note Id",this.props.noteID);
             // console.log("noteId in archive",this.props.noteID);
             var data ={
-                noteId : this.props.noteID,
-                archive : !this.state.archive
+                noteId : this.props.noteID
             }
             console.log("1223213",data);
             

@@ -54,7 +54,56 @@ export function archive(data) {
  * @description :  Here create function for getting archive Notes
  */
 export function getArchiveNotes() {
-    return Axios.post(baseUrl+"/getArchiveNotes",{
+    const token = localStorage.getItem('id')
+    return Axios.get(baseUrl+"/getArchiveNotes",{
+        headers : {
+            token : token
+        }
+    })
+
+}
+/**
+ * @description :  Here create function for updating title
+ */
+export function updateTitle(data){
+    return Axios.post(baseUrl+"/editTitle",data,{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}
+/**
+ * @description :  Here create function for updating description
+ */
+export function updateDescription(data){
+    return Axios.post(baseUrl+"/editDescription",data,{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}
+
+/**
+ * @description :  Here create function for updating color
+ */
+export function updateColor(data){
+    // console.log("color data is ---> ",data);  
+    return Axios.put(baseUrl+"/updateColor",data,{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}
+
+/**
+ * @description :  Here create function for delete note and transfer to trash box
+ */
+export function trash(data){
+    // console.log("color data is ---> ",data);  
+    return Axios.post(baseUrl+"/trash",data,{
         headers : {
             token : localStorage.getItem('id')
         }

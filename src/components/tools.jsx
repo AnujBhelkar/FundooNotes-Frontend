@@ -4,7 +4,7 @@ import Collab from '../components/collaborator';
 import Color from './colorBox'
 import Image from '../components/image'
 import Archive from '../components/archive'
-import More from "../components/more";
+import More from "../components/moreOption";
 import '../App.css'
 class ToolsComponent extends Component {
     constructor(props) {
@@ -45,16 +45,18 @@ class ToolsComponent extends Component {
                 <Collab/>
                 <Color
                     props = {this.props}
-                    // colorPaletteProps = {this.state.open}
-                    toolsPropsToCollorPallete = {this.colorValue}
-                    // noteId = {this.props.noteId}
+                    changeColor = {this.props.changeColor}
+                    noteID = {this.props.noteID}
                 />                                                   
                 <Image/>
                 <Archive
                     //archiveToTools = {this.handleArchiveTool}
                     noteID = {this.props.noteID}
                 />
-                <More/>
+                <More
+                    noteID = {this.props.noteID}
+                    trashNote = {this.props.trashNote}
+                />
             </div>
         )
     }
