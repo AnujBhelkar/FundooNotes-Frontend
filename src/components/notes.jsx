@@ -7,7 +7,8 @@
 import React, { Component } from 'react'
 import Tools from '../components/tools'
 import Card from '@material-ui/core/Card'
-import { getNotes, getArchiveNotes, updateTitle, updateDescription, updateColor,trash } from '../services/noteServices'
+import { getNotes, getArchiveNotes, updateTitle, updateDescription, updateColor,trash} from '../services/noteServices'
+import { makeArchiveNote } from "../services/noteServices";
 import Dialog from '../components/dialogBox'
 import TrashOptions from '../components/trashOptions'
 export class NotesComponent extends Component {
@@ -18,7 +19,7 @@ export class NotesComponent extends Component {
             notes: [],
             open: false,
             // noteId : '',
-            // archive: [],
+            archive: "",
             // trash : [],
             // archiveNoteCard : []
 
@@ -31,6 +32,7 @@ export class NotesComponent extends Component {
         this.closeDialogBox = this.closeDialogBox.bind(this)
         this.changeColor = this.changeColor.bind(this)
         this.trashNote = this.trashNote.bind(this)
+        this.makeArchive = this.makeArchive.bind(this)
 
         // this.getArchiveNotes = this.getArchiveNotes.bind
         //this.noteIdHandler = this.noteIdHandler.bind(this)
@@ -77,7 +79,7 @@ export class NotesComponent extends Component {
 
             })
     }
-
+    
     async changeColor(color, noteId) {
         const colorData = {
             noteId: noteId,
@@ -103,6 +105,33 @@ export class NotesComponent extends Component {
 
             })
     }
+    async makeArchive(archive,noteID){
+        const archiveData ={
+            archive : archive,
+            noteId : noteID
+        }
+        await makeArchiveNote(archiveData)
+            .then(res => {
+                console.log("archive successfully", res);
+                getNotes()
+                    .then(response => {
+                        console.log("all Notes", response.data.result);
+
+                        this.setState({ notes: response.data.result })
+                    })
+                    .catch(err => {
+                        console.log("Error in archive Notes", err);
+
+                    })
+
+            })
+            .catch(err => {
+                console.log("Error in archive note", err);
+
+            })
+    }
+    
+    
     closeDialogBox(e) {
         console.log("value of close Dialog box", e);
         this.setState({ open: !this.state.open })
@@ -164,11 +193,6 @@ export class NotesComponent extends Component {
             notes: [...this.state.notes, newcard]
         })
     }
-    // archiveOpenDashboardToNotes(value){
-    //     console.log("++++++++++++++>",value);
-
-    // }
-
 
 
     render() {
@@ -199,6 +223,7 @@ export class NotesComponent extends Component {
                                 noteID={key._id}
                                 changeColor={this.changeColor}
                                 trashNote = {this.trashNote}
+                                makeArchiveNoteProp ={this.makeArchive}
                             />
                         </Card>
                     </div>
@@ -237,7 +262,7 @@ export class NotesComponent extends Component {
                     return (
 
                         <div id={grid} >
-                            <Card className="noteCard" style={{ backgroundColor: key.color }}>
+                            <Card className="noteCard" style={{ backgroundColor: key.color,position : 'relative',top : '5rem' }}>
                                 <div onClick={() => this.handleClick(key)}>
                                     <div className="noteTitle">
                                         {key.title}
@@ -251,6 +276,7 @@ export class NotesComponent extends Component {
                                     noteID={key._id}
                                     changeColor={this.changeColor}
                                     trashNote = {this.trashNote}
+                                    makeArchiveNoteProp ={this.makeArchive}
                                 />
                             </Card>
                         </div>
@@ -268,6 +294,7 @@ export class NotesComponent extends Component {
                     parentOpen={this.state.open}
                     editTitle={this.editTitle}
                     editDescription={this.editDescription}
+                    editColor = {this.changeColor}
                     closeDialogBox={this.closeDialogBox}
                 />
             </div>

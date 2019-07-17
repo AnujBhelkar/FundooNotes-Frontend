@@ -100,7 +100,7 @@ export class appBar extends React.Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <div className="toolbar">
-                    <AppBar position="relative">
+                    <AppBar position="fixed">
                         <Toolbar style={{ backgroundColor: 'white' }} >
                             <Tooltip title="Menu" >
                                 <IconButton color="default" aria-label="Open drawer">

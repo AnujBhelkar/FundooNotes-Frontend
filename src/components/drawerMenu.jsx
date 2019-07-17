@@ -5,11 +5,14 @@
  * @since       : 08/07/2019
  **************************************************************************************/
 import React, { Component } from 'react'
-import {MenuItem,Drawer,Divider} from '@material-ui/core'
+import {MenuItem,Drawer,Divider, Button} from '@material-ui/core'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
+import { getAllLabel } from "../services/noteServices";
+import EditLabel from '../components/editLabel'
 //import { height } from '@material-ui/system';
 //import {getNotes} from '../services/noteServices'
-import {Archive, DeleteOutlineRounded} from "@material-ui/icons"
+import {Archive, DeleteOutlineRounded,CreateOutlined,LabelOutlined} from "@material-ui/icons"
+import { create } from 'istanbul-reports';
 const theme = createMuiTheme({
     overrides : {
         MuiDrawer : {
@@ -18,16 +21,11 @@ const theme = createMuiTheme({
             top: "7px",
             flex: "1 0 auto",
             width: 225,
-            height: 100,
             zindex: 1200,
             display: "flex",
             outline: "none",
             "z-index": 1200,
             "overflow-y": "auto",
-          
-                
-                
-             
                 }
             }
         }
@@ -44,12 +42,17 @@ class DrawerMenu extends Component {
         this.state = {
             archiveOpen : false,
             trashOpen  : false,
-            reminderOpen : false
+            reminderOpen : false,
+            open    : false,
+            label   : []
         }
         this.showArchiver = this.showArchiver.bind(this)
         this.handleReminder = this.handleReminder.bind(this)
         this.handleNotes = this.handleNotes.bind(this)
         this.showTrash = this.showTrash.bind(this)
+        this.editLabelHandler = this.editLabelHandler.bind(this)
+        this.closeEditLabelDialog = this.closeEditLabelDialog.bind(this)
+        
     }
     async handleNotes(){
         await this.setState({
@@ -88,8 +91,46 @@ class DrawerMenu extends Component {
         this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen)        
         console.log("Reminder Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen);
     }
-   
+    async editLabelHandler(event){
+        await this.setState({
+            open :  !this.state.open
+        })
+        console.log("you clicked on edit Label handler",event);
+        
+    }
+    async closeEditLabelDialog(e){
+        console.log("Edit Label Dialog Box Close",e);
+        
+        await this.setState({
+            open : !this.state.open
+        })
+    }
+    async searchlabel(value){
+        console.log("Searching label key is -->",value);
+        
+    }
+    componentDidMount(){
+        getAllLabel()
+            .then(res => {
+                console.log("All Label ==> ",res);
+                this.setState({
+                    label : res.data.result
+                })
+            })
+            .catch(err => {
+                console.log("Error in getting Label",err);
+                
+            })
+    }
     render() {
+        const allLabel = this.state.label.map(key => {
+            return(
+                <MenuItem>
+                        <LabelOutlined style = {{marginRight: "50px"}} />
+                         <span onClick = {()=> {this.searchlabel(key._id)}}>{key.label}</span>
+                </MenuItem>
+            )
+        })
         return (
             <MuiThemeProvider theme = {theme}>
                 <div>                    
@@ -108,8 +149,14 @@ class DrawerMenu extends Component {
                                 Reminder
                             </MenuItem>
                             <Divider/>
-                            <MenuItem>
+                            <div className = "drawerLabelItem" >
                                 LABELS
+                            </div>
+                            
+                                {allLabel}
+                            <MenuItem onClick = {() => this.editLabelHandler()} >
+                                    <CreateOutlined style ={{marginRight: "50px"}} />
+                                     <span style ={{ fontSize : "14px",font : "bold"}}>Edit Labels </span>    
                             </MenuItem>
                             <Divider/>
                             <MenuItem onClick = {this.showArchiver}>
@@ -121,9 +168,12 @@ class DrawerMenu extends Component {
                                 Trash
                             </MenuItem>
                             <Divider/>
-                        </Drawer>
-                        
+                        </Drawer>                       
                     </div>
+                    <EditLabel
+                        editLabelDialog = {this.state.open}
+                        closeEditLabelDialog = {this.closeEditLabelDialog}
+                    />
                 </MuiThemeProvider>
         )
     }

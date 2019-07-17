@@ -52,6 +52,7 @@ class ToolsComponent extends Component {
                 <Archive
                     //archiveToTools = {this.handleArchiveTool}
                     noteID = {this.props.noteID}
+                    makeArchiveNoteProp = {this.props.makeArchiveNoteProp}
                 />
                 <More
                     noteID = {this.props.noteID}

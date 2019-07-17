@@ -11,32 +11,11 @@ export class ArchiveComponent extends Component {
             archive : false,
             archiveNotes  : false 
         }
-          this.showArchive = this.showArchive.bind(this)
+          this.makeArchiveNote = this.makeArchiveNote.bind(this)
     }
-    showArchive(){
+    makeArchiveNote(e){
             try{
-            // this.setState({ archive: !this.state.archive})
-            // this.props.archiveToTools(this.state.archive,this.props.noteID)
-            // // console.log("note Id",this.props.noteID);
-            // console.log("noteId in archive",this.props.noteID);
-            var data ={
-                noteId : this.props.noteID
-            }
-            console.log("1223213",data);
-            
-            archive(data)
-                .then(res => {
-                    console.log("archive successfully",res);
-                    
-                })
-                .catch(err => {
-                    console.log("err in archive",err);
-                    
-                })
-            // this.setState({ archiveNotes : this.props.archiveNotes})
-            // console.log("Archive Notes",this.state.archiveNotes);
-                // this.setState({ archiveNotes :  !this.state.archiveNotes})
-                // this.props.archiveNotes(!this.state.archiveNotes)
+                this.props.makeArchiveNoteProp(!this.state.archive,this.props.noteID)
         }
         catch(err){
             console.log("error in get");
@@ -50,7 +29,7 @@ export class ArchiveComponent extends Component {
                 <IconButton>
                     <Tooltip title ="Archive">
                         <ArchiveIcon 
-                            onClick = {this.showArchive}
+                            onClick = {this.makeArchiveNote}
                         />
                     </Tooltip>
                 </IconButton>

@@ -333,7 +333,8 @@
   left: 1%;
 }
 .closeNoteButton{
-
+  bottom: -24%;
+  right: 10%;
 }
 .Component{
   display: flex;
@@ -409,4 +410,16 @@
 .dialogBox{
   margin-top: -8%;
 
+}
+/**************************************** Edit Label **************************************************/
+.addLabel{
+  display: flex;
+  justify-content: space-between;
+}
+.drawerLabels{
+  overflow: hidden;
+}
+.drawerLabelItem{
+  justify-content: space-between;
+  flex-direction: row;
 }

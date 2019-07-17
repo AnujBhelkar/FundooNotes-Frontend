@@ -42,7 +42,7 @@ export function getNotes() {
 /**
  * @description :  Here create function for archive notes
  */
-export function archive(data) {
+export function makeArchiveNote(data) {
     return Axios.post(baseUrl+"/archive",data,{
         headers : {
             token : localStorage.getItem('id')
@@ -104,6 +104,31 @@ export function updateColor(data){
 export function trash(data){
     // console.log("color data is ---> ",data);  
     return Axios.post(baseUrl+"/trash",data,{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}
+
+/**
+ * @description :  Here create function for label
+ */
+export function addLabel(data){
+    // console.log("color data is ---> ",data);  
+    return Axios.post(baseUrl+"/addLabel",data,{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}
+/**
+ * @description :  Here create function for getting all label
+ */
+export function getAllLabel(){
+    // console.log("color data is ---> ",data);  
+    return Axios.get(baseUrl+"/getAllLabel",{
         headers : {
             token : localStorage.getItem('id')
         }

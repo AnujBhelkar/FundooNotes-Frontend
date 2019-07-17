@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Dialog from "@material-ui/core/Dialog";
 import Tools from '../components/tools'
-import { Card, InputBase, IconButton, ClickAwayListener } from "@material-ui/core";
+import { Card, InputBase, IconButton, ClickAwayListener,Button } from "@material-ui/core";
 import '../App.css'
 export class DialogBoxComponent extends Component {
     constructor(props) {
@@ -32,6 +32,14 @@ export class DialogBoxComponent extends Component {
             description: description
         })
     }
+    handleEventColor(value){
+        this.setState({
+            color : value
+        })
+    }
+    // handleArchiveNote(value){
+    //     this.e
+    // }
     getData(note) {
         console.log("Data in dialog Box===> ", note)
         this.setState({
@@ -45,6 +53,7 @@ export class DialogBoxComponent extends Component {
     async handleToggle(e) {
         await this.props.editTitle(this.state.title, this.state._id)
         await this.props.editDescription(this.state.description, this.state._id)
+        await this.props.editColor(this.state.color, this.state._id)
         await this.props.closeDialogBox(e)
     }
     render() {
@@ -74,11 +83,10 @@ export class DialogBoxComponent extends Component {
                                 onChange={this.handleEventDescription}
                             />
                             <div className="Component">
-                                <Tools />
+                                <Tools
+                                />
                                 <div>
-                                    <IconButton className="closeNoteButton" onClick={() => this.handleToggle()}>
-                                        close
-                                    </IconButton>
+                                    <Button className= "closeNoteButton" onClick={() => this.handleToggle()}>close</Button>
                                 </div>
                             </div>
                         </Card>

@@ -9,7 +9,8 @@ import Card from '@material-ui/core/Card'
 import Tools from '../components/tools'
 import {createNotes} from '../services/noteServices'
 import '../App.css'
-import { InputBase, IconButton } from '@material-ui/core';
+import { InputBase, IconButton, Button, ClickAwayListener } from '@material-ui/core';
+import { relative } from 'path';
 
 export class createNote extends Component {
     constructor(props) {
@@ -20,7 +21,8 @@ export class createNote extends Component {
              open : false,
              title : '',
              description : '',
-             color : ''
+             archive : false,
+             color : 'rgb(255,255,255)'
         }
         this.titleHandler =  this.titleHandler.bind(this)
         this.descriptionHandler =  this.descriptionHandler.bind(this)
@@ -45,18 +47,27 @@ export class createNote extends Component {
     handleColor = value => {
         const color = value
         this.setState({ color : color })
-        console.log("create note",value);
+        console.log("create note",value);      
+    }
+    handleArchiveNote= value => {
+        console.log("create note Archive value ==>",value);
         
+        this.setState({
+            archive :value
+        })
     }
 
     saveNotes = event => {
         event.preventDefault();
-        this.setState({ open : ! this.state.open})
         const token = localStorage.getItem('id')
         var data = {
             title : this.state.title,
-            description : this.state.description
+            description : this.state.description,
+            color       : this.state.color,
+            archive     : this.state.archive
         }
+        console.log("save Notes Data ==>",data);
+        
         createNotes(data,token)
             .then(response => {
                 console.log("note created Successfully !! ",response.data.result);
@@ -75,8 +86,10 @@ export class createNote extends Component {
             })
 
         this.setState({
+            open : !this.state.open,
             title : "",
-            description : ""
+            description : "",
+            color : 'rgb(255,255,255)'
         })
     }
 
@@ -86,7 +99,7 @@ export class createNote extends Component {
                 <div className = "createNote" >
                     {
                         this.state.open ?
-                            <Card id = "noteCard1">
+                            <Card id = "noteCard1" style ={{  backgroundColor : this.state.color,position:"relative",top : "5rem" }}>
                                 <InputBase
                                     id = "inputBaseTitle"
                                     placeholder = "Title"
@@ -102,16 +115,17 @@ export class createNote extends Component {
                                     onChange = { this.descriptionHandler }
                                 />
                                 <div className = "Component">
-                                        <Tools/>
+                                        <Tools
+                                            changeColor = {this.handleColor}
+                                            makeArchiveNoteProp = {this.handleArchiveNote}
+                                        />
                                     <div>
-                                        <IconButton className= "closeNoteButton" onClick = {this.saveNotes}>
-                                            close
-                                        </IconButton>
+                                        <Button className= "closeNoteButton" onClick = {this.saveNotes}>close</Button>
                                     </div>
                                 </div>
                             </Card>
-                            :
-                            <Card id = "noteCard">
+                        :
+                            <Card id = "noteCard" style = {{ position : "relative",top : "5rem"}}>
                                 <InputBase
                                     id = "inputBaseTakeANote"
                                     placeholder = " Take a Note..............."

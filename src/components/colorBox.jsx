@@ -7,7 +7,8 @@
 import React, { Component } from 'react'
 import PaletteIcon from '@material-ui/icons/Palette'
 // import { PopupState, bindToggle, bindPopper } from 'material-ui-popup-state';
-import { IconButton, Tooltip, ClickAwayListener, Card, Popper, Paper } from '@material-ui/core';
+import { IconButton, Tooltip, ClickAwayListener, Card, Popper, Paper, Fade } from '@material-ui/core';
+import { relative } from 'path';
 // import transitions from '@material-ui/core/styles/transitions';
 // import { thisTypeAnnotation } from '@babel/types';
 const colorCodesAndNames = [{ name: "default", colorCode: "rgb(255, 255, 255)" },
@@ -29,9 +30,9 @@ class ColorComponent extends Component {
 
         this.state = {
             open: false,
-            anchorEl : null,
-            placement : null,
-            colorCode : ""
+            anchorEl: null,
+            placement: null,
+            colorCode: ""
 
 
         }
@@ -55,17 +56,17 @@ class ColorComponent extends Component {
 
         }
     }
-    handleColor = placement => event =>  {
+    handleColor = placement => event => {
         try {
             // event.prventDefault();
             // const open = !this.state.open
             // console.log("color Change", open);
             // this.setState({ open: open })
             // this.props.toolsPropsToCollorPallete(event.target.value)
-            const {currentTarget} = event;
+            const { currentTarget } = event;
             this.setState(state => ({
-                anchorEl : currentTarget,
-                open : !state.open || state.placement !== placement,
+                anchorEl: currentTarget,
+                open: !state.open || state.placement !== placement,
                 placement
             }))
         }
@@ -75,35 +76,33 @@ class ColorComponent extends Component {
 
         }
     }
-    changeColor(value){
+    changeColor(value) {
         // this.setState({ colorCode : value})
         // console.log("color value ==>",value);
-        
-        console.log("colorhjgkj ===> ",this.state.colorCode,this.props.noteID);
-        
-        this.props.changeColor(value,this.props.noteID)
+
+        console.log("colorhjgkj ===> ", value, this.props.noteID);
+
+        this.props.changeColor(value, this.props.noteID)
     }
 
     render() {
 
         const changeColor = colorCodesAndNames.map((colorKey) =>
-        
-        <Tooltip title={colorKey.name} style={{ zIndex: "9999" }}>
-            <IconButton style={{ backgroundColor: colorKey.colorCode, "margin": "2px", zIndex: "9999" }}
-                // value={colorKey.colorCode}
-                onClick={() => this.changeColor(colorKey.colorCode)}
-                
-                
-            >
-            {/** console.log("color===>",colorKey.colorCode)*/}
-           </IconButton>
-        </Tooltip>
-    );
-        const { open,placement,anchorEl } = this.state
-        return (    
+
+            <Tooltip title={colorKey.name} style={{ zIndex: "9999" }}>
+                <IconButton style={{ backgroundColor: colorKey.colorCode, "margin": "2px", zIndex: "9999" }}
+                    // value={colorKey.colorCode}
+                    onClick={() => this.changeColor(colorKey.colorCode)}
+             >
+                    {/** console.log("color===>",colorKey.colorCode)*/}
+                </IconButton>
+            </Tooltip>
+        );
+        const { open, placement, anchorEl } = this.state
+        return (
             <div>
-                <Popper open = {open} placement = {placement} anchorEl = {anchorEl} transition>
-                    <Paper style = {{ width : "35%"}} onMouseLeave = {this.closePopper}>
+                <Popper open={open} placement={placement} anchorEl={anchorEl} transition>
+                    <Paper style={{ width: "35%" }} onMouseLeave={this.closePopper}>
                         {changeColor}
                     </Paper>
                 </Popper>
@@ -122,36 +121,3 @@ class ColorComponent extends Component {
 export default ColorComponent
 
 
-
-// <IconButton>
-// <Tooltip title="Color">
-//     <PaletteIcon
-//         onClick={this.handleColor}
-//     />
-// </Tooltip>
-// </IconButton>
-
-// <PopupState>
-//                     {popupState => (
-//                         <div>
-//                             <div {...this.bindToggle(popupState)} >
-//                                 <IconButton>
-//                                     <Tooltip title="Color">
-//                                         <PaletteIcon
-//                                             onClick={this.handleColor}
-//                                         />
-//                                     </Tooltip>
-//                                 </IconButton>
-//                             </div>
-//                             <Popper {...this.bindPopper(popupState)} transition >
-//                                 <Paper
-//                                     onMouseLeave={this.closePopper}
-//                                 >
-//                                     {changeColor}
-//                                 </Paper>
-//                             </Popper>
-//                         </div>
-
-//                     )}
-
-//                 </PopupState>
