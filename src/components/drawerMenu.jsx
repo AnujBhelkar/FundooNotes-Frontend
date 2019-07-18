@@ -52,6 +52,8 @@ class DrawerMenu extends Component {
         this.showTrash = this.showTrash.bind(this)
         this.editLabelHandler = this.editLabelHandler.bind(this)
         this.closeEditLabelDialog = this.closeEditLabelDialog.bind(this)
+        this.showLabel = this.showLabel.bind(this)
+        this.newLabel = this.newLabel.bind(this)
         
     }
     async handleNotes(){
@@ -109,6 +111,21 @@ class DrawerMenu extends Component {
         console.log("Searching label key is -->",value);
         
     }
+    async showLabel(value){
+        var labelArray = this.state.label
+        if(value !== undefined){
+            labelArray.push(value)
+            await this.setState({
+                label : labelArray
+            })
+        }
+    }
+    async newLabel(value){
+        console.log("label value is ==>",value);
+        await this.setState({
+            label : value
+        })
+    }
     componentDidMount(){
         getAllLabel()
             .then(res => {
@@ -123,14 +140,17 @@ class DrawerMenu extends Component {
             })
     }
     render() {
-        const allLabel = this.state.label.map(key => {
-            return(
-                <MenuItem>
-                        <LabelOutlined style = {{marginRight: "50px"}} />
-                         <span onClick = {()=> {this.searchlabel(key._id)}}>{key.label}</span>
-                </MenuItem>
-            )
-        })
+        var allLabel = this.state.label
+        if(this.state.label !== ""){
+            allLabel = this.state.label.map(key => {
+                return(
+                    <MenuItem>
+                            <LabelOutlined style = {{marginRight: "50px"}} />
+                                <span onClick = {()=> {this.searchlabel(key._id)}}>{key.label}</span>
+                    </MenuItem>
+                )
+            })
+        }
         return (
             <MuiThemeProvider theme = {theme}>
                 <div>                    
@@ -173,6 +193,9 @@ class DrawerMenu extends Component {
                     <EditLabel
                         editLabelDialog = {this.state.open}
                         closeEditLabelDialog = {this.closeEditLabelDialog}
+                        showLabel = {this.showLabel}
+                        labels = {this.state.label}
+                        newLabel = {this.newLabel}
                     />
                 </MuiThemeProvider>
         )

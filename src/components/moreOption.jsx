@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import MoreIcon from '@material-ui/icons/MoreVert'
 import { IconButton, Tooltip,Popper,Paper, MenuList, MenuItem, ClickAwayListener } from '@material-ui/core';
+import AddLabelPopup from '../components/label'
 export class MoreComponent extends Component {
     constructor(props) {
         super(props)
@@ -11,6 +12,7 @@ export class MoreComponent extends Component {
              anchorEl : null,
              placement : null
         }
+        this.labelAddToNote = React.createRef()
     }
     moreOptions = placement => event => {
         console.log("options More");
@@ -36,6 +38,12 @@ export class MoreComponent extends Component {
         this.handleCloseMorePopper()
         this.props.trashNote(this.props.noteID)
     }
+    handleAddLabel = (event) => {
+        this.setState({
+            open : false
+        })
+        this.labelAddToNote.current.displayLabelPopup(event)
+    }
 
     render() {
         const {open,placement,anchorEl} = this.state;
@@ -46,7 +54,7 @@ export class MoreComponent extends Component {
                         <Paper onMouseLeave={this.closePopper} className = "moreVertList">
                             <MenuList className = "moreVertList">
                                 <MenuItem onClick = {this.handleTrashNote} >Delete Note</MenuItem>
-                                <MenuItem>Add Label</MenuItem>
+                                <MenuItem onClick = {this.handleAddLabel}>Add Label</MenuItem>
                             </MenuList>            
                         </Paper>
                     </ClickAwayListener>
@@ -56,6 +64,11 @@ export class MoreComponent extends Component {
                         <MoreIcon onClick = {this.moreOptions('bottom-start') } />
                     </Tooltip>
                 </IconButton>
+                <AddLabelPopup
+                    ref = {this.labelAddToNote}
+                    anchorEl = {this.state.anchorEl}
+                    noteID = {this.props.noteID}
+                />
             </div>
         )
     }

@@ -135,3 +135,41 @@ export function getAllLabel(){
     })
 
 }
+
+/**
+ * @description :  Here create function for updating label
+ */
+export function editLabel(labelData){
+    // console.log("color data is ---> ",data);  
+    return Axios.put(baseUrl+"/updateLabel",labelData,{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}
+/**
+ * @description :  Here create function for deleting label
+ */
+export function deleletingLabel(labelData){
+    var token = localStorage.getItem('id')
+    console.log("delete label id is ---> ",labelData,token);  
+    return Axios.post("http://localhost:4000/deleteLabel",labelData,{
+        headers : {
+            token : token
+        }
+    })
+
+}
+
+/**
+ * @description :  Here create function for saving label to note
+ */
+export function saveLabelToNote(labelData){  
+    return Axios.post(baseUrl + "/saveLabelToNote",labelData,{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}

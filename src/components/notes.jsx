@@ -6,8 +6,8 @@
  ***************************************************************************************************/
 import React, { Component } from 'react'
 import Tools from '../components/tools'
-import Card from '@material-ui/core/Card'
-import { getNotes, getArchiveNotes, updateTitle, updateDescription, updateColor,trash} from '../services/noteServices'
+import { Card, Chip } from '@material-ui/core'
+import { getNotes, getArchiveNotes, updateTitle, updateDescription, updateColor, trash } from '../services/noteServices'
 import { makeArchiveNote } from "../services/noteServices";
 import Dialog from '../components/dialogBox'
 import TrashOptions from '../components/trashOptions'
@@ -79,7 +79,7 @@ export class NotesComponent extends Component {
 
             })
     }
-    
+
     async changeColor(color, noteId) {
         const colorData = {
             noteId: noteId,
@@ -105,10 +105,10 @@ export class NotesComponent extends Component {
 
             })
     }
-    async makeArchive(archive,noteID){
-        const archiveData ={
-            archive : archive,
-            noteId : noteID
+    async makeArchive(archive, noteID) {
+        const archiveData = {
+            archive: archive,
+            noteId: noteID
         }
         await makeArchiveNote(archiveData)
             .then(res => {
@@ -130,15 +130,15 @@ export class NotesComponent extends Component {
 
             })
     }
-    
-    
+
+
     closeDialogBox(e) {
         console.log("value of close Dialog box", e);
         this.setState({ open: !this.state.open })
     }
-    async trashNote(noteId){
+    async trashNote(noteId) {
         const data = {
-            noteId : noteId
+            noteId: noteId
         }
         await trash(data)
             .then(res => {
@@ -146,18 +146,18 @@ export class NotesComponent extends Component {
                 getNotes()
                     .then(response => {
                         console.log("all Notes", response.data.result);
-        
+
                         this.setState({ notes: response.data.result })
                     })
                     .catch(err => {
                         console.log("Error in getting Notes", err);
-        
+
                     })
-                
+
             })
             .catch(err => {
                 console.log("Error in Trashed Note");
-                
+
             })
 
     }
@@ -203,66 +203,13 @@ export class NotesComponent extends Component {
 
         if (this.props.archiveNotes === true) {
             var notearr = this.state.notes.map((key) => {
-                if(key.archive === true){
-                // let noteArray = otherArray(this.state.notes)
-                // console.log("all notes", key._id);
-                return (
-
-                    <div id={grid} >
-                        <Card className="noteCard" style={{ backgroundColor: key.color }}>
-                            <div onClick={() => this.handleClick(key)}>
-                                <div className="noteTitle">
-                                    {key.title}
-                                </div>
-                                <div className="noteDescription">
-                                    {key.description}
-                                </div>
-                            </div>
-                            <Tools
-                                //toolsToNotesProps = {this.noteIdHandler(key._id)}
-                                noteID={key._id}
-                                changeColor={this.changeColor}
-                                trashNote = {this.trashNote}
-                                makeArchiveNoteProp ={this.makeArchive}
-                            />
-                        </Card>
-                    </div>
-                )
-                }
-            })
-        }
-        else if(this.props.trashNotes === true) {
-            var notearr = this.state.notes.map((key) => {
-                if(key.trash === true){
-                // let noteArray = otherArray(this.state.notes)
-                // console.log("all notes", key._id);
-                return (
-                    <div id={grid} >
-                        <Card className="noteCard" style={{ backgroundColor: key.color }}>
-                            <div onClick={() => this.handleClick(key)}>
-                                <div className="noteTitle">
-                                    {key.title}
-                                </div>
-                                <div className="noteDescription">
-                                    {key.description}
-                                </div>
-                            </div>
-                            <TrashOptions/>
-                        </Card>
-                    </div>
-                )
-                }
-            })
-        }
-        else {
-            var notearr = this.state.notes.map((key) => {
-                if (key.archive === false && key.trash === false) {
+                if (key.archive === true) {
                     // let noteArray = otherArray(this.state.notes)
                     // console.log("all notes", key._id);
                     return (
 
                         <div id={grid} >
-                            <Card className="noteCard" style={{ backgroundColor: key.color,position : 'relative',top : '5rem' }}>
+                            <Card className="noteCard" style={{ backgroundColor: key.color }}>
                                 <div onClick={() => this.handleClick(key)}>
                                     <div className="noteTitle">
                                         {key.title}
@@ -275,8 +222,74 @@ export class NotesComponent extends Component {
                                     //toolsToNotesProps = {this.noteIdHandler(key._id)}
                                     noteID={key._id}
                                     changeColor={this.changeColor}
-                                    trashNote = {this.trashNote}
-                                    makeArchiveNoteProp ={this.makeArchive}
+                                    trashNote={this.trashNote}
+                                    makeArchiveNoteProp={this.makeArchive}
+                                />
+                            </Card>
+                        </div>
+                    )
+                }
+            })
+        }
+        else if (this.props.trashNotes === true) {
+            var notearr = this.state.notes.map((key) => {
+                if (key.trash === true) {
+                    // let noteArray = otherArray(this.state.notes)
+                    // console.log("all notes", key._id);
+                    return (
+                        <div id={grid} >
+                            <Card className="noteCard" style={{ backgroundColor: key.color }}>
+                                <div onClick={() => this.handleClick(key)}>
+                                    <div className="noteTitle">
+                                        {key.title}
+                                    </div>
+                                    <div className="noteDescription">
+                                        {key.description}
+                                    </div>
+                                </div>
+                                <TrashOptions />
+                            </Card>
+                        </div>
+                    )
+                }
+            })
+        }
+        else {
+            var notearr = this.state.notes.map((key) => {
+                if (key.archive === false && key.trash === false) {
+                    // let noteArray = otherArray(this.state.notes)
+                    // console.log("all notes", key._id);
+                    return (
+
+                        <div id={grid} >
+                            <Card className="noteCard" style={{ backgroundColor: key.color, position: 'relative', top: '5rem' }}>
+                                <div onClick={() => this.handleClick(key)}>
+                                    <div className="noteTitle">
+                                        {key.title}
+                                    </div>
+                                    <div className="noteDescription">
+                                        {key.description}
+                                    </div>
+                                </div>
+                                <div>
+                                    {
+                                        // key.label > 0 ?
+                                        //    key.label.map((labels) =>
+                                        //         <div>
+                                        //             <Chip>
+                                        //                 {labels.label}
+                                        //             </Chip>
+                                        //         </div>
+                                        //     )
+                                        //     : (null)
+                                    }
+                                </div>
+                                <Tools
+                                    //toolsToNotesProps = {this.noteIdHandler(key._id)}
+                                    noteID={key._id}
+                                    changeColor={this.changeColor}
+                                    trashNote={this.trashNote}
+                                    makeArchiveNoteProp={this.makeArchive}
                                 />
                             </Card>
                         </div>
@@ -294,7 +307,7 @@ export class NotesComponent extends Component {
                     parentOpen={this.state.open}
                     editTitle={this.editTitle}
                     editDescription={this.editDescription}
-                    editColor = {this.changeColor}
+                    editColor={this.changeColor}
                     closeDialogBox={this.closeDialogBox}
                 />
             </div>

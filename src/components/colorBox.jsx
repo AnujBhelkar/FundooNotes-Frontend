@@ -89,8 +89,8 @@ class ColorComponent extends Component {
 
         const changeColor = colorCodesAndNames.map((colorKey) =>
 
-            <Tooltip title={colorKey.name} style={{ zIndex: "9999" }}>
-                <IconButton style={{ backgroundColor: colorKey.colorCode, "margin": "2px", zIndex: "9999" }}
+            <Tooltip title={colorKey.name} style = {{zIndex: "100%"}}>
+                <IconButton style={{ backgroundColor: colorKey.colorCode, "margin": "2px" }}
                     // value={colorKey.colorCode}
                     onClick={() => this.changeColor(colorKey.colorCode)}
              >
@@ -100,11 +100,13 @@ class ColorComponent extends Component {
         );
         const { open, placement, anchorEl } = this.state
         return (
-            <div>
+            <div >
                 <Popper open={open} placement={placement} anchorEl={anchorEl} transition>
-                    <Paper style={{ width: "35%" }} onMouseLeave={this.closePopper}>
-                        {changeColor}
-                    </Paper>
+                    <div style = {{}}>
+                        <Paper style={{ width: "35%"}} onMouseLeave={this.closePopper} >
+                            {changeColor}
+                        </Paper>
+                    </div>
                 </Popper>
                 <IconButton>
                     <Tooltip title="Color">
