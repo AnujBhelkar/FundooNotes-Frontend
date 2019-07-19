@@ -173,3 +173,14 @@ export function saveLabelToNote(labelData){
     })
 
 }
+/**
+ * @description :  Here create function for delete label to note
+ */
+export function deleteLabelToNote(labelData){  
+    return Axios.post(baseUrl + "/deleteLabelToNote",labelData,{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}

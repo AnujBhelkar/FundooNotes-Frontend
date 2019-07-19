@@ -57,6 +57,7 @@ class ToolsComponent extends Component {
                 <More
                     noteID = {this.props.noteID}
                     trashNote = {this.props.trashNote}
+                    selectedLabelProps = {this.props.selectedLabelProps}
                 />
             </div>
         )

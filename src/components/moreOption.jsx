@@ -68,6 +68,7 @@ export class MoreComponent extends Component {
                     ref = {this.labelAddToNote}
                     anchorEl = {this.state.anchorEl}
                     noteID = {this.props.noteID}
+                    selectedLabelProps = {this.props.selectedLabelProps}
                 />
             </div>
         )

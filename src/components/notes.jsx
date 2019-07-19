@@ -7,10 +7,11 @@
 import React, { Component } from 'react'
 import Tools from '../components/tools'
 import { Card, Chip } from '@material-ui/core'
-import { getNotes, getArchiveNotes, updateTitle, updateDescription, updateColor, trash } from '../services/noteServices'
+import { getNotes, getArchiveNotes, updateTitle, updateDescription, updateColor, trash, deleteLabelToNote, saveLabelToNote } from '../services/noteServices'
 import { makeArchiveNote } from "../services/noteServices";
 import Dialog from '../components/dialogBox'
 import TrashOptions from '../components/trashOptions'
+import SearchNote from '../components/searchNote'
 export class NotesComponent extends Component {
     constructor(props) {
         super(props)
@@ -184,8 +185,51 @@ export class NotesComponent extends Component {
         //     })
 
     };
-
-
+    async handleLabelOnDelete(label,noteId){
+        var labelData = {
+            label : label,
+            noteId : noteId,
+        }
+         await deleteLabelToNote(labelData)
+            .then(res => {
+                console.log("label Deleted Successfully",res.data.result);
+                var newArray = this.state.notes
+                for(var i = 0 ; i < newArray.length ; i++ ){
+                    if(newArray[i]._id === labelData.noteId ){
+                        newArray[i].label = res.data.result
+                        this.setState
+                        ({
+                            notes : newArray
+                        })
+                    }
+                }
+                
+            })   
+            .catch(err => {
+                console.log("error in deleting note",err);
+                
+            })
+    }
+    saveLabelToNote = (noteID,selectedLabel) => {
+        const labelData = {
+            noteId : noteID,
+            label : selectedLabel 
+        }
+        console.log("Label Data of save label is ==> ",labelData);
+        
+        saveLabelToNote(labelData)
+            .then(res => {
+                var newArray = this.state.notes
+                for(var i = 0 ;i < newArray.length ; i++){
+                    if(newArray[i]._id === labelData.noteId){
+                        newArray[i].label = res.data.result
+                        this.setState({
+                            notes : newArray
+                        })
+                    }
+                }
+            })
+    }
     displayCard = (newcard) => {
         console.log("newcard==>", newcard);
 
@@ -200,8 +244,22 @@ export class NotesComponent extends Component {
         // console.log(CardView);
         // console.log("archiedsbkjf",this.props.archiveOpen);
         console.log(this.props.archiveNotes, this.props.reminderNotes, this.props.trashNotes);
-
-        if (this.props.archiveNotes === true) {
+        if(this.props.searchInputDashToNotes !== ""){
+            let searchNote
+                if(this.props.searchInputDashToNotes !== "" ){
+                    searchNote = this.state.notes.filter(
+                        obj => obj.title.includes(this.props.searchInputDashToNotes) || 
+                            obj.description.includes(this.props.searchInputDashToNotes)
+                    )
+                }
+                return(
+                    <SearchNote
+                        searchNote = {searchNote}
+                        cardStyle = {this.props.grid}
+                    />
+                )
+        }
+        else if (this.props.archiveNotes === true) {
             var notearr = this.state.notes.map((key) => {
                 if (key.archive === true) {
                     // let noteArray = otherArray(this.state.notes)
@@ -209,7 +267,7 @@ export class NotesComponent extends Component {
                     return (
 
                         <div id={grid} >
-                            <Card className="noteCard" style={{ backgroundColor: key.color }}>
+                            <Card className="noteCard" style={{ backgroundColor: key.color , position: 'relative', top: '5rem',width: "min-content"}}>
                                 <div onClick={() => this.handleClick(key)}>
                                     <div className="noteTitle">
                                         {key.title}
@@ -217,6 +275,20 @@ export class NotesComponent extends Component {
                                     <div className="noteDescription">
                                         {key.description}
                                     </div>
+                                </div>
+                                <div style ={{display:"flex"}}>
+                                    {
+                                        key.label !== null ?
+                                           key.label.map((labels) =>
+                                                <div>
+                                                    <Chip
+                                                        label = {labels}
+                                                        onDelete = {() =>this.handleLabelOnDelete(labels,key._id)}
+                                                    />
+                                                </div>
+                                            )
+                                            : (null)
+                                    }
                                 </div>
                                 <Tools
                                     //toolsToNotesProps = {this.noteIdHandler(key._id)}
@@ -238,7 +310,7 @@ export class NotesComponent extends Component {
                     // console.log("all notes", key._id);
                     return (
                         <div id={grid} >
-                            <Card className="noteCard" style={{ backgroundColor: key.color }}>
+                            <Card className="noteCard" style={{ backgroundColor: key.color, position: 'relative', top: '5rem',width: "min-content" }}>
                                 <div onClick={() => this.handleClick(key)}>
                                     <div className="noteTitle">
                                         {key.title}
@@ -246,6 +318,20 @@ export class NotesComponent extends Component {
                                     <div className="noteDescription">
                                         {key.description}
                                     </div>
+                                </div>
+                                <div style ={{display:"flex"}}>
+                                    {
+                                        key.label !== null ?
+                                           key.label.map((labels) =>
+                                                <div>
+                                                    <Chip
+                                                        label = {labels}
+                                                        onDelete = {() =>this.handleLabelOnDelete(labels,key._id)}
+                                                    />
+                                                </div>
+                                            )
+                                            : (null)
+                                    }
                                 </div>
                                 <TrashOptions />
                             </Card>
@@ -262,7 +348,7 @@ export class NotesComponent extends Component {
                     return (
 
                         <div id={grid} >
-                            <Card className="noteCard" style={{ backgroundColor: key.color, position: 'relative', top: '5rem' }}>
+                            <Card className="noteCard" style={{ backgroundColor: key.color, position: 'relative', top: '5rem'}}>
                                 <div onClick={() => this.handleClick(key)}>
                                     <div className="noteTitle">
                                         {key.title}
@@ -271,17 +357,18 @@ export class NotesComponent extends Component {
                                         {key.description}
                                     </div>
                                 </div>
-                                <div>
+                                <div style ={{display:"flex"}}>
                                     {
-                                        // key.label > 0 ?
-                                        //    key.label.map((labels) =>
-                                        //         <div>
-                                        //             <Chip>
-                                        //                 {labels.label}
-                                        //             </Chip>
-                                        //         </div>
-                                        //     )
-                                        //     : (null)
+                                        key.label !== null ?
+                                           key.label.map((labels) =>
+                                                <div>
+                                                    <Chip
+                                                        label = {labels}
+                                                        onDelete = {() =>this.handleLabelOnDelete(labels,key._id)}
+                                                    />
+                                                </div>
+                                            )
+                                            : (null)
                                     }
                                 </div>
                                 <Tools
@@ -290,6 +377,7 @@ export class NotesComponent extends Component {
                                     changeColor={this.changeColor}
                                     trashNote={this.trashNote}
                                     makeArchiveNoteProp={this.makeArchive}
+                                    selectedLabelProps = {this.saveLabelToNote}
                                 />
                             </Card>
                         </div>

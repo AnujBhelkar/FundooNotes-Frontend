@@ -13,10 +13,13 @@ class DashboardPage extends Component {
              archiveOpen : '',
              archiveNotes : '',
              trashNotes : '',
-             reminderNotes : ''
+             reminderNotes : '',
+             searchInputValue : ''
         }
         this.createcard=React.createRef()
         this.slideCards = this.slideCards.bind(this)
+        this.searchInput = this.searchInput.bind(this)
+        
        // this.createcard = this.createcard.bind(this)
 
         // this.cardView = this.cardView.bind(this)
@@ -67,7 +70,13 @@ class DashboardPage extends Component {
     //     // this.setState({archiveOpen: value})
     //     this.props.archiveOpenDashboardToNotes(value)
     // }
-    
+    searchInput(value){
+        console.log("search Input Value is ==>",value);
+        
+        this.setState({
+            searchInputValue : value
+        })
+    }
     render() {
         const slidingCards = this.state.slideCards ? "beforeSlide" : "afterSlide"; 
         return (
@@ -77,6 +86,7 @@ class DashboardPage extends Component {
                         <AppBarComponent 
                             props = {this.props}
                             slideCards={this.slideCards}
+                            searchInput = {this.searchInput}
                             // cardView = {this.cardView}
                             cardViewProps={this.grid}
                             archiveOpenAppBarToDashboard = {this.archiveOpenAppBarToDashboard}
@@ -92,6 +102,7 @@ class DashboardPage extends Component {
                             ref={this.createcard}
                             props = {this.props}
                             // cardViewProps = {this.state.cardView}
+                            searchInputDashToNotes = {this.state.searchInputValue}
                             grid = {this.state.grid}
                             archiveNotes = {this.state.archiveNotes}
                             trashNotes = {this.state.trashNotes}

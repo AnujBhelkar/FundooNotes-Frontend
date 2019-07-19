@@ -54,7 +54,7 @@ export class appBar extends React.Component {
         this.searchInputHandler = this.searchInputHandler.bind(this)
         this.refreshHandler = this.refreshHandler.bind(this)
         this.archiveOpen = this.archiveOpen.bind(this)
-        // this.gridHandler = this.gridHandler.bind(this)
+        this.handleCloseSearch = this.handleCloseSearch.bind(this)
      //   this.signOut = this.signOut.bind(this)
     }
     archiveOpen(archive,trash,reminder){
@@ -82,6 +82,7 @@ export class appBar extends React.Component {
     searchInputHandler = event => {
         const searchInput = event.target.value;
         this.setState({ searchInput: searchInput })
+        this.props.searchInput(this.state.searchInput)
     }
 
     refreshHandler = event => {
@@ -93,6 +94,12 @@ export class appBar extends React.Component {
         console.log("appbar grid",this.state.grid);
         
         this.props.cardViewProps(!this.state.grid)
+    }
+    async handleCloseSearch(){
+        await this.setState({
+            searchInput: ''
+        })
+        this.props.searchInput(this.state.searchInput)
     }
     render() {
         console.log("fsadfadskjf34",this.props.archiveOpen);
@@ -141,7 +148,7 @@ export class appBar extends React.Component {
                                     <div>
                                         <IconButton>
                                             <Tooltip title="Close Search" >
-                                                <CloseSearch />
+                                                <CloseSearch onClick = {this.handleCloseSearch}/>
                                             </Tooltip>
                                         </IconButton>
                                     </div>
