@@ -62,6 +62,7 @@ class DrawerMenu extends Component {
             trashOpen :false,
             reminderOpen : false
         })
+        this.props.makeLabelFalse()
         this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen)
         console.log("handle Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen);
         
@@ -72,6 +73,7 @@ class DrawerMenu extends Component {
             trashOpen :false,
             reminderOpen : false
         })
+        this.props.makeLabelFalse()
         this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen)    
         console.log("Archive Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen);    
     }
@@ -81,6 +83,7 @@ class DrawerMenu extends Component {
             trashOpen :true,
             reminderOpen : false
         })
+        this.props.makeLabelFalse()
         this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen)   
         console.log("Trash Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen);     
     }
@@ -90,6 +93,7 @@ class DrawerMenu extends Component {
             trashOpen :false,
             reminderOpen : true
         })
+        this.props.makeLabelFalse()
         this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen)        
         console.log("Reminder Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen);
     }
@@ -107,10 +111,13 @@ class DrawerMenu extends Component {
             open : !this.state.open
         })
     }
+    
     async searchlabel(value){
-        console.log("Searching label key is -->",value);
+        console.log("label value is ",value);
         
+       await this.props.searchlabel(value)      
     }
+
     async showLabel(value){
         var labelArray = this.state.label
         if(value !== undefined){
@@ -146,7 +153,7 @@ class DrawerMenu extends Component {
                 return(
                     <MenuItem>
                             <LabelOutlined style = {{marginRight: "50px"}} />
-                                <span onClick = {()=> {this.searchlabel(key._id)}}>{key.label}</span>
+                                <span onClick = {()=> {this.searchlabel(key.label)}}>{key.label}</span>
                     </MenuItem>
                 )
             })

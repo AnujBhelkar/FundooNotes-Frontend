@@ -41,7 +41,10 @@ class ToolsComponent extends Component {
     // console.log("12",this.props.archiveNotes);
         return (
             <div className = "toolComponent">
-                <Reminder/>
+                <Reminder
+                    noteID = {this.props.noteID}
+                    saveReminder = {this.props.saveReminder}
+                />
                 <Collab/>
                 <Color
                     props = {this.props}

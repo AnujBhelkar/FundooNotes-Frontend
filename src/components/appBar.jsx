@@ -102,7 +102,7 @@ export class appBar extends React.Component {
         this.props.searchInput(this.state.searchInput)
     }
     render() {
-        console.log("fsadfadskjf34",this.props.archiveOpen);
+        console.log("fsadfadskjf34",this.props.archiveOpen,this.props.makeLabelFalse);
         
         return (
             <MuiThemeProvider theme={theme}>
@@ -119,6 +119,8 @@ export class appBar extends React.Component {
                                     className="drawerMenu"
                                     appBarProps={this.state.open}
                                     archiveOpen = {this.archiveOpen}
+                                    searchlabel = {this.props.searchlabel}
+                                    makeLabelFalse = {this.props.makeLabelFalse}
                                 />
 
                                 <div className="fundooImageText">

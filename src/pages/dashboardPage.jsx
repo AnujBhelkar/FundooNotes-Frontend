@@ -9,6 +9,7 @@ class DashboardPage extends Component {
     
         this.state = {
              slideCards : false,
+             label : "",
              grid : false,
              archiveOpen : '',
              archiveNotes : '',
@@ -19,6 +20,7 @@ class DashboardPage extends Component {
         this.createcard=React.createRef()
         this.slideCards = this.slideCards.bind(this)
         this.searchInput = this.searchInput.bind(this)
+        this.searchlabel = this.searchlabel.bind(this)
         
        // this.createcard = this.createcard.bind(this)
 
@@ -77,6 +79,21 @@ class DashboardPage extends Component {
             searchInputValue : value
         })
     }
+    searchlabel(value){
+        
+        this.setState({
+            label : value
+        })
+        console.log("label of dashboard is ==>",this.state.label,value);
+        
+        this.createcard.current.displayLabelledCard()
+    }
+    makeLabelFalse = () => {
+        this.createcard.current.makeLabelFalse()
+        // this.setState({
+        //     label : value
+        // })
+    }
     render() {
         const slidingCards = this.state.slideCards ? "beforeSlide" : "afterSlide"; 
         return (
@@ -87,14 +104,16 @@ class DashboardPage extends Component {
                             props = {this.props}
                             slideCards={this.slideCards}
                             searchInput = {this.searchInput}
+                            searchlabel = {this.searchlabel}
                             // cardView = {this.cardView}
                             cardViewProps={this.grid}
                             archiveOpenAppBarToDashboard = {this.archiveOpenAppBarToDashboard}
+                            makeLabelFalse = {this.makeLabelFalse}
                         />
                     </div> 
                     <div>
                         <CreateNote
-                        createNoteProps={this.createNoteProps}
+                            createNoteProps={this.createNoteProps}
                         />
                     </div>
                     <div>
@@ -107,6 +126,7 @@ class DashboardPage extends Component {
                             archiveNotes = {this.state.archiveNotes}
                             trashNotes = {this.state.trashNotes}
                             reminderNotes = {this.state.reminderNotes}
+                            labelValue = {this.state.label}
                         />
                     </div>
                     

@@ -184,3 +184,27 @@ export function deleteLabelToNote(labelData){
     })
 
 }
+
+/**
+ * @description :  Here create function for save Reminder
+ */
+export function addReminder(reminderData){  
+    return Axios.post(baseUrl + "/reminder",reminderData,{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}
+
+/**
+ * @description :  Here create function for delete label to note
+ */
+export function deleteReminderToNote(reminderData){  
+    return Axios.post(baseUrl + "/deleteReminderToNote",reminderData,{
+        headers : {
+            token : localStorage.getItem('id')
+        }
+    })
+
+}

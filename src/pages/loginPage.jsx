@@ -15,6 +15,8 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import IconButton from '@material-ui/core/IconButton'
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { prototype } from 'stream';
+import PropTypes from 'prop-types';
 
  export class LoginComponent extends Component {
      constructor(props) {
@@ -136,3 +138,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
  
  export default LoginComponent
  
+ LoginComponent.propTypes = {
+    email: PropTypes.element.isRequired
+  };
+  

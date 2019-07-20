@@ -400,6 +400,12 @@
   display: flex;
   flex-wrap: wrap;
 }
+.trashCard{
+  position: relative;
+   top: 5rem;
+   width: 120%;
+   justify-content: space-around; 
+}
 /**************************************Color Box****************************************************/
 .colorCardHandler{
   flex-wrap: wrap;
