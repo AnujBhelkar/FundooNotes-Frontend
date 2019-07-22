@@ -45,7 +45,7 @@ class ResetPassword extends Component {
         resetPassword(resetData,token)
             .then((response) => {
                 console.log("Password Reset Successfully !!",response);
-                this.props.props.history.push('/login')
+                this.props.history.push('/login')
             })
             .catch((err) => {
                 console.log("Error ",err);
@@ -64,6 +64,8 @@ class ResetPassword extends Component {
                         <div className = 'forgotTextField'>
                             
                             <TextField
+                                id = "password"
+                                name = "password"
                                 variant="outlined"
                                 type={this.state.showPassword ? 'text' : 'password'}
                                 label="Password"
@@ -85,6 +87,8 @@ class ResetPassword extends Component {
                                 }}
                           />
                           <TextField
+                                id = "confirmPassword"
+                                name = "confirmPassword"
                                 variant="outlined"
                                 type={this.state.showPassword ? 'text' : 'password'}
                                 label="Password"
