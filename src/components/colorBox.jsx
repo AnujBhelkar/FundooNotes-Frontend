@@ -103,7 +103,7 @@ class ColorComponent extends Component {
             <div >
                 <Popper open={open} placement={placement} anchorEl={anchorEl} transition>
                     <div style = {{}}>
-                        <Paper style={{ width: "35%"}} onMouseLeave={this.closePopper} >
+                        <Paper style={{ width: "35%",zIndex : "2px"}} onMouseLeave={this.closePopper} >
                             {changeColor}
                         </Paper>
                     </div>

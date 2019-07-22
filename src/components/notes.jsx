@@ -7,7 +7,7 @@
 import React, { Component } from 'react'
 import Tools from '../components/tools'
 import { Card, Chip } from '@material-ui/core'
-import { getNotes, getArchiveNotes, updateTitle, updateDescription, updateColor, trash, deleteLabelToNote, saveLabelToNote, addReminder,deleteReminderToNote } from '../services/noteServices'
+import { getNotes, getArchiveNotes, updateTitle, updateDescription, updateColor, trash, deleteLabelToNote, saveLabelToNote, addReminder,deleteReminderToNote, deleteNote } from '../services/noteServices'
 import { makeArchiveNote } from "../services/noteServices";
 import Dialog from '../components/dialogBox'
 import TrashOptions from '../components/trashOptions'
@@ -281,7 +281,7 @@ export class NotesComponent extends Component {
 
     async handleReminderOnDelete(reminder,noteId){
         var reminderData = {
-            label : reminder,
+            reminder : reminder,
             noteId : noteId,
         }
          await deleteReminderToNote(reminderData)
@@ -301,6 +301,30 @@ export class NotesComponent extends Component {
             })   
             .catch(err => {
                 console.log("error in deleting note",err);
+                
+            })
+    }
+
+    deleteNote = (noteID) => {
+        var deleteData = {
+            noteId : noteID
+        }
+        // console.log("delete Data is -->",deleteData);
+        
+        deleteNote(deleteData)
+            .then(res => {
+                console.log("Note Deleted Successfully",res);
+                var noteArray = this.state.notes
+                for(var i = 0 ; i < noteArray.length ; i++){
+                    if(noteArray[i]._id === deleteData.noteId)
+                        noteArray.splice(i,1)
+                        this.setState({
+                            notes : noteArray
+                        })
+                }
+            })
+            .catch(err => {
+                console.log("Error in Deleting Notes");
                 
             })
     }
@@ -338,7 +362,7 @@ export class NotesComponent extends Component {
                     return (
 
                         <div id={grid} >
-                            <Card className="noteCard" style={{ backgroundColor: key.color , position: 'relative', top: '5rem',width: "min-content"}}>
+                            <Card className="noteCard" style={{ backgroundColor: key.color , position: 'relative', top: '5rem'}}>
                                 <div onClick={() => this.handleClick(key)}>
                                     <div className="noteTitle">
                                         {key.title}
@@ -391,13 +415,13 @@ export class NotesComponent extends Component {
         }
         else if (this.props.reminderNotes === true) {
             var notearr = this.state.notes.map((key) => {
-                if (key.reminder !== null) {
+                if (key.reminder.length > 0 ) {
                     // let noteArray = otherArray(this.state.notes)
                     // console.log("all notes", key._id);
                     return (
 
                         <div id={grid} >
-                            <Card className="noteCard" style={{ backgroundColor: key.color , position: 'relative', top: '5rem',width: "min-content"}}>
+                            <Card className="noteCard" style={{ backgroundColor: key.color , position: 'relative', top: '5rem'}}>
                                 <div onClick={() => this.handleClick(key)}>
                                     <div className="noteTitle">
                                         {key.title}
@@ -455,7 +479,9 @@ export class NotesComponent extends Component {
                     // console.log("all notes", key._id);
                     return (
                         <div id={grid} >
-                            <Card className="noteCard" style={{ backgroundColor: key.color,position: 'relative', top: '5rem'}}>
+                            <Card style={{ backgroundColor: key.color,position: 'relative', top: '5rem',width : "125%",
+                                     justifyContent :"space-around","flex-wrap": "wrap"
+                                }}>
                                 <div onClick={() => this.handleClick(key)}>
                                     <div className="noteTitle">
                                         {key.title}
@@ -492,7 +518,11 @@ export class NotesComponent extends Component {
                                             : (null)
                                     }
                                 </div>
-                                <TrashOptions />
+                                <TrashOptions
+                                    noteID = {key._id}
+                                    restoreNote = {this.trashNote}
+                                    deleteNotePermanent = {this.deleteNote}
+                                />
                             </Card>
                         </div>
                     )
@@ -507,7 +537,7 @@ export class NotesComponent extends Component {
                     return (
 
                         <div id={grid} >
-                            <Card className="noteCard" style={{ backgroundColor: key.color, position: 'relative', top: '5rem'}}>
+                            <Card className="noteCard" style={{ backgroundColor: key.color, position: 'relative', top: '5rem',    "word-break": "break-all"}}>
                                 <div onClick={() => this.handleClick(key)}>
                                     <div className="noteTitle">
                                         {key.title}

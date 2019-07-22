@@ -42,7 +42,7 @@ class RegisterComponent extends Component {
      */
 
     changeHandler = event => {
-        event.preventDefault();
+        // event.preventDefault();
         const { name,value } = event.target;
         const emailRegularExpression = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/ 
         const passwordRegularExpression = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
@@ -138,7 +138,7 @@ class RegisterComponent extends Component {
 
     signInInsteadHandler = event => {
         event.preventDefault();
-        this.props.props.history.push('/login')
+        this.props.history.push('/login')
     }
 
     // validate = () => {
@@ -253,6 +253,7 @@ class RegisterComponent extends Component {
                                 <div className = 'textField1-2'>
                                     <div className = 'textFieldWidth'>
                                         <TextField
+                                            id ='firstName'
                                             label="First Name"
                                             margin="dense"
                                             name = 'firstName'
@@ -266,6 +267,7 @@ class RegisterComponent extends Component {
                                     </div>
                                     <div className = 'textFieldWidth2'>
                                         <TextField
+                                            id = 'lastName'
                                             label="Last Name"
                                             margin = "dense"
                                             name = 'lastName'
@@ -299,6 +301,7 @@ class RegisterComponent extends Component {
                                 <div className = 'textFieldPassword'>
                                     <div >
                                         <TextField
+                                            id = 'password'
                                             className='textFieldWidth4'
                                             label="Password"
                                             variant="outlined"
@@ -312,6 +315,7 @@ class RegisterComponent extends Component {
                                     </div> 
                                     <div className = 'paddingConfirm'>
                                         <TextField style = {{marginLeft: -22 +'%'}}
+                                            id = 'confirmPassword'
                                             className='textFieldWidth5'
                                             label="Confirm Password"
                                             variant="outlined"

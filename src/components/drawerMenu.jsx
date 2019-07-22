@@ -12,7 +12,6 @@ import EditLabel from '../components/editLabel'
 //import { height } from '@material-ui/system';
 //import {getNotes} from '../services/noteServices'
 import {Archive, DeleteOutlineRounded,CreateOutlined,LabelOutlined} from "@material-ui/icons"
-import { create } from 'istanbul-reports';
 const theme = createMuiTheme({
     overrides : {
         MuiDrawer : {
@@ -140,6 +139,8 @@ class DrawerMenu extends Component {
                 this.setState({
                     label : res.data.result
                 })
+                // console.log("labels=>",this.state.label);
+                
             })
             .catch(err => {
                 console.log("Error in getting Label",err);
@@ -210,5 +211,3 @@ class DrawerMenu extends Component {
 }
 
 export default DrawerMenu; 
-
-// .

@@ -45,6 +45,7 @@ export class ForgotPassword extends Component {
                         </div>
                         <div className = 'forgotTextField'>
                             <TextField
+                                id ='email'
                                 variant = 'outlined'
                                 margin  = 'dense'
                                 type    =  'email'

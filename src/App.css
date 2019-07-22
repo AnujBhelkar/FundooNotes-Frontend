@@ -186,7 +186,10 @@
 .createAccountButton {
   margin-left: 14%;
 }
-
+.forgotButton{
+  margin-top: -7%;
+  margin-left: 2%;
+}
 /*********************************************forgot************************************************/
 
 .forgotBox {

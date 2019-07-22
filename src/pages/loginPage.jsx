@@ -15,8 +15,6 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import IconButton from '@material-ui/core/IconButton'
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { prototype } from 'stream';
-import PropTypes from 'prop-types';
 
  export class LoginComponent extends Component {
      constructor(props) {
@@ -43,7 +41,10 @@ import PropTypes from 'prop-types';
       } 
       createAccButtonHandler = event => {
           event.preventDefault();
-          this.props.props.history.push('/register')
+          this.props.history.push('/register')
+      }
+      forgotButtonHandler = () => {
+          this.props.history.push('/forgotPassword')
       }
 
       loginButtonHandler = event => {
@@ -86,8 +87,10 @@ import PropTypes from 'prop-types';
                         <div className = 'textFieldLogin'>
                             <div>
                                 <TextField
+                                    id     = 'email'
                                     label  = 'Email'
                                     type   = 'email'
+                                    name   = 'email'
                                     margin = 'dense'
                                     variant= 'outlined'
                                     value  = {this.state.email}
@@ -96,6 +99,7 @@ import PropTypes from 'prop-types';
                             </div>
                             <div className = 'textLoginPass'>
                             <TextField
+                                id = 'password'
                                 variant="outlined"
                                 type={this.state.showPassword ? 'text' : 'password'}
                                 label="Password"
@@ -129,6 +133,10 @@ import PropTypes from 'prop-types';
                                 </CardActions>
                             </div>
                         </div>
+                            <CardActions>
+                                <Button size ='large' onClick = {this.forgotButtonHandler.bind(this)} style ={{"marginTop" : "-7%",
+                                    "margin-left": "2%"}} > Forgot Password ? </Button>
+                            </CardActions>
                     </form>
                  </Card>
              </div>
@@ -138,7 +146,3 @@ import PropTypes from 'prop-types';
  
  export default LoginComponent
  
- LoginComponent.propTypes = {
-    email: PropTypes.element.isRequired
-  };
-  

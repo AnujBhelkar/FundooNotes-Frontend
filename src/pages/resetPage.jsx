@@ -15,12 +15,18 @@ class ResetPassword extends Component {
     
         this.state = {
              password : '',
-             showPassword : ''
+             showPassword : '',
+             confirmPassword : ''
         }
     }
     resetPasswordHandler = event => {
         const password = event.target.value
         this.setState({ password : password })
+    }
+    resetConfirmPasswordHandler = event => {
+        const confirmPassword = event.target.value
+        this.setState({ confirmPassword : confirmPassword })
+
     }
     handleClickShowPassword = event => {
         const showPassword = ! this.state.showPassword;
@@ -30,10 +36,13 @@ class ResetPassword extends Component {
         event.preventDefault();
 
         var cur_url = window.location.pathname;
-        var token = cur_url.substr(19)
+        var token = cur_url.substr(15)
         console.log("token", token,);
-        
-        resetPassword(this.state.password,token)
+        const resetData = {
+            "password" : this.state.password,
+            "confirmPassword" : this.state.confirmPassword
+        }
+        resetPassword(resetData,token)
             .then((response) => {
                 console.log("Password Reset Successfully !!",response);
                 this.props.props.history.push('/login')
@@ -61,6 +70,27 @@ class ResetPassword extends Component {
                                 margin = 'dense'
                                 value={this.state.password}
                                 onChange={this.resetPasswordHandler.bind(this)}
+                                InputProps={{
+                                    endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    edge="end"
+                                                    aria-label="Toggle password visibility"
+                                                    onClick={this.handleClickShowPassword.bind(this)}
+                                                >
+                                                    {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                    ),
+                                }}
+                          />
+                          <TextField
+                                variant="outlined"
+                                type={this.state.showPassword ? 'text' : 'password'}
+                                label="Password"
+                                margin = 'dense'
+                                value={this.state.confirmPassword}
+                                onChange={this.resetConfirmPasswordHandler.bind(this)}
                                 InputProps={{
                                     endAdornment: (
                                             <InputAdornment position="end">
