@@ -44,15 +44,14 @@ export class MoreComponent extends Component {
         })
         this.labelAddToNote.current.displayLabelPopup(event)
     }
-
     render() {
         const {open,placement,anchorEl} = this.state;
         return (
             <div>
-                <Popper open={open} placement={placement} anchorEl={anchorEl} transition>
+                <Popper open={open} placement={placement} anchorEl={anchorEl} transition style = {{position : "relative",zIndex : "9999"}}>
                     <ClickAwayListener onClickAway = {this.handleCloseMorePopper}>
                         <Paper onMouseLeave={this.closePopper} className = "moreVertList">
-                            <MenuList className = "moreVertList">
+                            <MenuList className = "moreVertList"  >
                                 <MenuItem onClick = {this.handleTrashNote} >Delete Note</MenuItem>
                                 <MenuItem onClick = {this.handleAddLabel}>Add Label</MenuItem>
                             </MenuList>            
@@ -60,7 +59,7 @@ export class MoreComponent extends Component {
                     </ClickAwayListener>
                 </Popper>
                 <IconButton>
-                    <Tooltip title="More">
+                    <Tooltip title="More" >
                         <MoreIcon onClick = {this.moreOptions('bottom-start') } />
                     </Tooltip>
                 </IconButton>

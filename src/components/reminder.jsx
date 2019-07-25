@@ -49,7 +49,7 @@ export class ReminderComponent extends Component {
         var { open,anchorEl,placement} = this.state;
         return (
             <div>
-                <Popper open = {open} anchorEl = {anchorEl} placement ={placement}>
+                <Popper open = {open} anchorEl = {anchorEl} placement ={placement} style ={{position : "absolute",zIndex:"9999"}}>
                     <ClickAwayListener onClickAway = {this.closePopper}>
                         <Paper>
                             <MenuList>

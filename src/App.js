@@ -5,6 +5,7 @@ import ForgotPassword from './pages/forgotPage'
 import Login from './pages/loginPage'
 import Reset from './pages/resetPage'
 import Dashboard from './pages/dashboardPage'
+import Chart from './pages/charts'
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
           <Route path = '/forgotPassword' component = {ForgotPassword} ></Route>
           <Route path = '/resetPassword/:token' component = {Reset} ></Route>
           <Route path = '/dashboard' component = {Dashboard}></Route>
+          <Route path = '/chart' component = {Chart}></Route>
         </Router>
       </div>
     )

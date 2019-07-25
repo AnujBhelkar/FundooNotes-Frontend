@@ -21,10 +21,10 @@ describe('Reset password input', () => {
         wrapper.find('#password').simulate('change',{
             target : {
                 name : 'password',
-                value : '123456'
+                value : '123456789'
             }
         });
-        expect(wrapper.state('password')).toEqual('123456')
+        expect(wrapper.state('password')).toEqual('123456789')
     })
 })
 describe('Confirm Password Input', () => {
@@ -33,9 +33,9 @@ describe('Confirm Password Input', () => {
         wrapper.find('#confirmPassword').simulate('change',{
             target : {
                 name : 'confirmPassword',
-                value : '123456'
+                value : '123456789'
             }
         });
-        expect(wrapper.state('confirmPassword')).toEqual('123456')
+        expect(wrapper.state('confirmPassword')).toEqual('123456789')
     })
 })

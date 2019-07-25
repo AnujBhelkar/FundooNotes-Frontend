@@ -100,11 +100,11 @@ class DrawerMenu extends Component {
         await this.setState({
             open :  !this.state.open
         })
-        console.log("you clicked on edit Label handler",event);
+        // console.log("you clicked on edit Label handler",event);
         
     }
     async closeEditLabelDialog(e){
-        console.log("Edit Label Dialog Box Close",e);
+        // console.log("Edit Label Dialog Box Close",e);
         
         await this.setState({
             open : !this.state.open
@@ -112,7 +112,7 @@ class DrawerMenu extends Component {
     }
     
     async searchlabel(value){
-        console.log("label value is ",value);
+        // console.log("label value is ",value);
         
        await this.props.searchlabel(value)      
     }
@@ -127,7 +127,7 @@ class DrawerMenu extends Component {
         }
     }
     async newLabel(value){
-        console.log("label value is ==>",value);
+        // console.log("label value is ==>",value);
         await this.setState({
             label : value
         })
@@ -135,7 +135,7 @@ class DrawerMenu extends Component {
     componentDidMount(){
         getAllLabel()
             .then(res => {
-                console.log("All Label ==> ",res);
+                // console.log("All Label ==> ",res);
                 this.setState({
                     label : res.data.result
                 })

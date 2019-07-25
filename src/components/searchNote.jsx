@@ -34,6 +34,20 @@ class Search extends Component {
                                                 : (null)
                                         }
                                     </div>
+                                    <div style ={{display:"flex"}}>
+                                        {
+                                            // key.reminder !== null ?
+                                            //    key.reminder.map((reminders) =>
+                                            //         <div>
+                                            //             <Chip
+                                            //                 label = {reminders}
+                                            //                 onDelete = {() =>this.handleReminderOnDelete(reminder,key._id)}
+                                            //             />
+                                            //         </div>
+                                            //     )
+                                            //     : (null)
+                                        }
+                                    </div>
                                     <Tools
                                         //toolsToNotesProps = {this.noteIdHandler(key._id)}
                                         noteID={key._id}

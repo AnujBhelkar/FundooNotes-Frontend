@@ -49,7 +49,7 @@ export class NotesComponent extends Component {
     // }
     async handleClick(note) {
         console.log("note ==> ", note)
-        this.cardToDialogBox.current.getData(note);
+        await this.cardToDialogBox.current.getData(note);
         await this.setState({ open: true })
     }
     editTitle(title, noteId) {
@@ -90,6 +90,8 @@ export class NotesComponent extends Component {
             noteId: noteId,
             color: color
         }
+        console.log("Color data in notes -->",colorData);
+        
         await updateColor(colorData)
             .then(res => {
                 console.log("update color successfully", res);
@@ -150,7 +152,7 @@ export class NotesComponent extends Component {
                 console.log("Note Trashed");
                 getNotes()
                     .then(response => {
-                        console.log("all Notes", response.data.result);
+                        // console.log("all Notes", response.data.result);
 
                         this.setState({ notes: response.data.result })
                     })
@@ -169,7 +171,7 @@ export class NotesComponent extends Component {
     componentDidMount = () => {
         getNotes()
             .then(response => {
-                console.log("all Notes", response.data.result);
+                // console.log("all Notes", response.data.result);
 
                 this.setState({ notes: response.data.result })
             })
@@ -406,6 +408,7 @@ export class NotesComponent extends Component {
                                     trashNote={this.trashNote}
                                     makeArchiveNoteProp={this.makeArchive}
                                     saveReminder = {this.saveReminder}
+                                    selectedLabelProps = {this.saveLabelToNote}
                                 />
                             </Card>
                         </div>
@@ -465,6 +468,7 @@ export class NotesComponent extends Component {
                                     trashNote={this.trashNote}
                                     makeArchiveNoteProp={this.makeArchive}
                                     saveReminder = {this.saveReminder}
+                                    selectedLabelProps = {this.saveLabelToNote}
                                 />
                             </Card>
                         </div>
@@ -599,8 +603,14 @@ export class NotesComponent extends Component {
                     parentOpen={this.state.open}
                     editTitle={this.editTitle}
                     editDescription={this.editDescription}
-                    editColor={this.changeColor}
                     closeDialogBox={this.closeDialogBox}
+                    editColor = {this.changeColor}
+                    saveReminder = {this.saveReminder}
+                    selectedLabelProps = {this.saveLabelToNote}
+                    makeArchiveNote = {this.makeArchive}
+                    trashNote={this.trashNote}
+                    handleLabelOnNote = {this.handleLabelOnDelete}
+                    handleReminderOnNote = {this.handleReminderOnDelete}
                 />
             </div>
         )

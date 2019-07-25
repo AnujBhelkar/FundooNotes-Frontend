@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AppBarComponent from '../components/appBar'
 import CreateNote from '../components/createNote'
 import Notes from '../components/notes'
+import { FastForward } from '@material-ui/icons';
 // import DialogTest from '../components/dialogTest';
 class DashboardPage extends Component {
     constructor(props) {
@@ -12,9 +13,9 @@ class DashboardPage extends Component {
              label : "",
              grid : false,
              archiveOpen : '',
-             archiveNotes : '',
-             trashNotes : '',
-             reminderNotes : '',
+             archiveNotes : false,
+             trashNotes : false,
+             reminderNotes : false,
              searchInputValue : ''
         }
         this.createcard=React.createRef()
@@ -51,8 +52,6 @@ class DashboardPage extends Component {
         }
     }
     archiveOpenAppBarToDashboard = (archiveNotes,trashNotes,reminderNotes)=>{
-        console.log("Notes Value in Dashboard ==>",archiveNotes,trashNotes,reminderNotes);
-        
         if(archiveNotes === true || trashNotes === true || reminderNotes === true ){
             this.setState({
                 archiveNotes:archiveNotes,
@@ -95,6 +94,7 @@ class DashboardPage extends Component {
         // })
     }
     render() {
+        console.log("Notes Value in Dashboard ==>",this.state.archiveNotes,this.state.trashNotes,this.state.reminderNotes);
         const slidingCards = this.state.slideCards ? "beforeSlide" : "afterSlide"; 
         return (
             <div>
@@ -112,9 +112,12 @@ class DashboardPage extends Component {
                         />
                     </div> 
                     <div>
-                        <CreateNote
-                            createNoteProps={this.createNoteProps}
-                        />
+                        { this.state.trashNotes === false  &&
+                            this.state.archiveNotes === false &&
+                                <CreateNote
+                                    createNoteProps={this.createNoteProps}
+                                /> 
+                        }
                     </div>
                     <div>
                         <Notes

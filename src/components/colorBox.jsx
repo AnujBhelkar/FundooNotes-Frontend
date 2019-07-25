@@ -58,11 +58,6 @@ class ColorComponent extends Component {
     }
     handleColor = placement => event => {
         try {
-            // event.prventDefault();
-            // const open = !this.state.open
-            // console.log("color Change", open);
-            // this.setState({ open: open })
-            // this.props.toolsPropsToCollorPallete(event.target.value)
             const { currentTarget } = event;
             this.setState(state => ({
                 anchorEl: currentTarget,
@@ -79,9 +74,7 @@ class ColorComponent extends Component {
     changeColor(value) {
         // this.setState({ colorCode : value})
         // console.log("color value ==>",value);
-
         console.log("colorhjgkj ===> ", value, this.props.noteID);
-
         this.props.changeColor(value, this.props.noteID)
     }
 
@@ -89,7 +82,7 @@ class ColorComponent extends Component {
 
         const changeColor = colorCodesAndNames.map((colorKey) =>
 
-            <Tooltip title={colorKey.name} style = {{zIndex: "100%"}}>
+            <Tooltip title={colorKey.name} style = {{zIndex: "9999"}}>
                 <IconButton style={{ backgroundColor: colorKey.colorCode, "margin": "2px" }}
                     // value={colorKey.colorCode}
                     onClick={() => this.changeColor(colorKey.colorCode)}
@@ -101,7 +94,7 @@ class ColorComponent extends Component {
         const { open, placement, anchorEl } = this.state
         return (
             <div >
-                <Popper open={open} placement={placement} anchorEl={anchorEl} transition>
+                <Popper open={open} placement={placement} anchorEl={anchorEl} transition style = {{position : "relative",zIndex : "9999"}}>
                     <div style = {{}}>
                         <Paper style={{ width: "35%",zIndex : "2px"}} onMouseLeave={this.closePopper} >
                             {changeColor}

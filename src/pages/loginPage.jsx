@@ -62,7 +62,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
                 localStorage.setItem('userName',response.data.result.firstName)
                 localStorage.setItem('profilePic',response.data.result.imageUrl)
                 console.log(this.props);
-                
                 this.props.history.push('/dashboard')
             })
             .catch((err) => {

@@ -9,26 +9,12 @@ export class Label extends Component {
         this.state = {
              open : false,
              anchorEl : null,
-             placement : null,
              label : []
 
         }
         this.handlePopper = this.handlePopper.bind(this)
     }
     handleLabelChoices = (noteID ,selectedLabel) => {
-        // var labelData = {
-        //     noteId : noteID,
-        //     label : selectedLabel
-        // }
-        // saveLabelToNote(labelData)
-        //     .then(res => {
-        //         console.log("label save to note is done -->" ,res);
-                
-        //     })
-        //     .catch(err =>{
-        //         console.log("error in saving data to note",err);
-                
-        //     })
         this.props.selectedLabelProps(noteID,selectedLabel)
     }
     displayLabelPopup = () => {
@@ -46,7 +32,7 @@ export class Label extends Component {
     componentDidMount(){
         getAllLabel()
             .then(res => {
-                console.log("getting All Label in Label Component",res);
+                // console.log("getting All Label in Label Component",res);
                 this.setState({
                     label : res.data.result 
                 })
@@ -69,10 +55,10 @@ export class Label extends Component {
                 </MenuItem>
             )
         }
-        const {open,anchorEl,placement} = this.state;
+        const {open,anchorEl} = this.state;
         return (
             <div>
-                <Popper open = {open} anchorEl = {anchorEl} >
+                <Popper open = {open} anchorEl = {anchorEl} style ={{ position : "absolute" , zIndex : "9999"}} >
                     <ClickAwayListener onClickAway = {this.handlePopper}>
                         <Paper>
                                 {labels}
