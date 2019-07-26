@@ -16,6 +16,7 @@ class DashboardPage extends Component {
              archiveNotes : false,
              trashNotes : false,
              reminderNotes : false,
+             noteAnalysis : false,
              searchInputValue : ''
         }
         this.createcard=React.createRef()
@@ -51,19 +52,21 @@ class DashboardPage extends Component {
             console.log(" Error in cards view ")
         }
     }
-    archiveOpenAppBarToDashboard = (archiveNotes,trashNotes,reminderNotes)=>{
-        if(archiveNotes === true || trashNotes === true || reminderNotes === true ){
+    archiveOpenAppBarToDashboard = (archiveNotes,trashNotes,reminderNotes,noteAnalysis)=>{
+        if(archiveNotes === true || trashNotes === true || reminderNotes === true || noteAnalysis === true){
             this.setState({
                 archiveNotes:archiveNotes,
                 trashNotes:trashNotes,
-                reminderNotes:reminderNotes
+                reminderNotes:reminderNotes,
+                noteAnalysis : noteAnalysis
             })
         }
         else{
             this.setState({
                 archiveNotes:false,
                 trashNotes:false,
-                reminderNotes:false
+                reminderNotes:false,
+                noteAnalysis : false
             })
         }
     }
@@ -94,7 +97,7 @@ class DashboardPage extends Component {
         // })
     }
     render() {
-        console.log("Notes Value in Dashboard ==>",this.state.archiveNotes,this.state.trashNotes,this.state.reminderNotes);
+        console.log("Notes Value in Dashboard ==>",this.state.archiveNotes,this.state.trashNotes,this.state.reminderNotes,this.state.noteAnalysis);
         const slidingCards = this.state.slideCards ? "beforeSlide" : "afterSlide"; 
         return (
             <div>
@@ -114,9 +117,10 @@ class DashboardPage extends Component {
                     <div>
                         { this.state.trashNotes === false  &&
                             this.state.archiveNotes === false &&
-                                <CreateNote
-                                    createNoteProps={this.createNoteProps}
-                                /> 
+                                this.state.noteAnalysis === false &&
+                                    <CreateNote
+                                        createNoteProps={this.createNoteProps}
+                                    /> 
                         }
                     </div>
                     <div>
@@ -129,6 +133,7 @@ class DashboardPage extends Component {
                             archiveNotes = {this.state.archiveNotes}
                             trashNotes = {this.state.trashNotes}
                             reminderNotes = {this.state.reminderNotes}
+                            noteAnalysis = {this.state.noteAnalysis}  
                             labelValue = {this.state.label}
                         />
                     </div>

@@ -1,75 +1,138 @@
 import React, { Component } from 'react'
 import { Pie } from 'react-chartjs-2';
-import { getNotes } from '../services/noteServices';
-export class PieChart extends Component {
+import { Divider } from '@material-ui/core';
+export class NoteAnalysis extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
-             labels : ['Reminder','Trash','Archive'],
-            //  datasets : [{
-            //      data : [2000,4000,3000],
-            //      backgroundColor : ['red','green','blue']
-            //  }],
-             notes : [],
-             Data : {},
+            noteLabels: ['Reminder', 'Reminder And Archive', 'Trash', 'Archive'],
+            noteData: {},
+            label: ['Note Label', 'Reminder Label', 'Reminder And Archive Label', 'Archive Label', 'Trash Label'],
+            labelData : {}
         }
+        this.noteAnalysis = this.noteAnalysis.bind(this)
+        this.labelAnalysis = this.labelAnalysis.bind(this)
     }
-    componentDidMount(){
-        getNotes()
-            .then(res => {
-                this.setState({
-                    notes : res.data.result
-                })
-                console.log("Notes in pie chart -->",res,this.state.notes.length);
-                var archive = 0;
-                var trash = 0;
-                var reminder = 0;
-                this.state.notes.map((key) => {
-                    console.log("key is -->",key);
-                    if(key.trash === true){
-                        trash++
-                    }
-                    else if(key.reminder.length > 0 ){
-                       reminder++
-                    }
-                    else{
-                        archive++
-                    }
-                })
 
-                this.setState({
-                    Data : {
-                        labels : this.state.labels,
-                        datasets : [{
-                            label : "Notes Ratio",
-                            data : [reminder,trash,archive],
-                            backgroundColor : ['red','green','royalblue']
-                        }]
-                    }
-
-                })
-                console.log("length Is ==>", reminder,trash,archive);
-                
-                
-            })
-            .catch(err => {
-                console.log("error in getting notes in pie chart -->",err);
-                
-            })
+    componentDidMount() {
+        this.noteAnalysis();
+        this.labelAnalysis();
     }
-    
+    noteAnalysis() {
+        var archive = 0;
+        var trash = 0;
+        var reminder = 0;
+        var archiveReminder = 0;
+        console.log("this.props.allNotes", this.props.allNotes);
+
+        this.props.allNotes.map((key) => {
+            console.log("key is -->", key);
+            if (key.trash === true) {
+                trash++
+            }
+            else if (key.reminder.length > 0 && key.archive === true) {
+                archiveReminder++
+            }
+            else if (key.reminder.length > 0) {
+                reminder++
+            }
+            else {
+                archive++
+            }
+        })
+        // console.log("analysis",analysis);
+
+        this.setState({
+            noteData: {
+                labels: this.state.noteLabels,
+                datasets: [{
+                    label: "Notes Ratio",
+                    data: [reminder, archiveReminder, archive, trash],
+                    backgroundColor: ['khaki', 'midnight green', 'rosybrown', 'cadetblue']
+                }]
+            }
+
+        })
+    }
+    labelAnalysis() {
+        var archiveLabel = 0;
+        var trashLabel = 0;
+        var reminderLabel = 0;
+        var archiveReminderLabel = 0;
+        var notelabel = 0;
+        console.log("this.props.allNotes", this.props.allNotes);
+
+        this.props.allNotes.map((key) => {
+            if (key.label.length > 0) {
+                
+                if (key.trash === true) {
+                    trashLabel = trashLabel + key.label.length
+                    console.log("trashLAbel -->", trashLabel);
+                }
+                else if (key.reminder.length > 0 && key.archive === true) {
+                    archiveReminderLabel = archiveReminderLabel + key.label.length
+                    console.log("trashLAbel -->", archiveReminderLabel);
+                }
+                else if (key.reminder.length > 0) {
+                    reminderLabel = reminderLabel + key.label.length
+                    console.log("trashLAbel -->", reminderLabel);
+                }
+                else if (key.archive === true){
+                    archiveLabel = archiveLabel + key.label.length
+                    console.log("trashLAbel -->", trashLabel);
+                }
+                else {
+                    notelabel = notelabel + key.label.length
+                }
+            }
+
+        })
+
+        // console.log("analysis",analysis);
+
+        this.setState({
+            labelData: {
+                labels: this.state.label,
+                datasets: [{
+                    label: "Notes Ratio",
+                    data: [notelabel,reminderLabel, archiveReminderLabel, archiveLabel, trashLabel],
+                    backgroundColor: ['khaki', 'midnight green', 'rosybrown', 'cadetblue']
+                }]
+            }
+
+        })
+    }
+
     render() {
+
+        console.log("data is -->", this.state.Data);
         return (
             <div>
-                    fd;ldf;ldgfld;l
-                <Pie
-                    data = {this.state.Data}
-                    height = "100%"
-                />    
+                <div style={{ position: 'relative', top: '6rem' }}>
+                    <Pie
+                        data={this.state.noteData}
+                        height="100%"
+                    />
+                    <span className="pieChart">
+                        Analysis of notes
+                    </span>
+                    
+                </div>
+                    <Divider style={{ position: 'relative'}}/>
+                <div style={{ position: 'relative', top: '5rem' }}>
+                    <Pie
+                        data={this.state.labelData}
+                        height="100%"
+                    />
+                    <span className="pieChart">
+                        Analysis of Labels
+                    </span>
+                </div>
+                <Divider style={{ position: 'relative',bottom: "-7rem"}}/>
             </div>
         )
     }
 }
 
-export default PieChart
+export default NoteAnalysis

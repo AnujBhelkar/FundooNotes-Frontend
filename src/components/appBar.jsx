@@ -57,10 +57,10 @@ export class appBar extends React.Component {
         this.handleCloseSearch = this.handleCloseSearch.bind(this)
      //   this.signOut = this.signOut.bind(this)
     }
-    archiveOpen(archive,trash,reminder){
+    archiveOpen(archive,trash,reminder,noteAnalysis){
         // this.setState({ archiveOpen : value})
-        console.log("=-=>",archive,trash,reminder);
-        this.props.archiveOpenAppBarToDashboard(archive,trash,reminder)
+        console.log("=-=>",archive,trash,reminder,noteAnalysis);
+        this.props.archiveOpenAppBarToDashboard(archive,trash,reminder,noteAnalysis)
         
     }
     toggleHandle = () => {
@@ -116,6 +116,7 @@ export class appBar extends React.Component {
                             </Tooltip>
                             <div className="appBarClass">
                                 <Drawer
+                                    props = {this.props}
                                     className="drawerMenu"
                                     appBarProps={this.state.open}
                                     archiveOpen = {this.archiveOpen}

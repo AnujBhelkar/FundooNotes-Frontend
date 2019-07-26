@@ -12,6 +12,7 @@ import { makeArchiveNote } from "../services/noteServices";
 import Dialog from '../components/dialogBox'
 import TrashOptions from '../components/trashOptions'
 import SearchNote from '../components/searchNote'
+import NoteAnalysis from '../components/pieChart'
 export class NotesComponent extends Component {
     constructor(props) {
         super(props)
@@ -335,7 +336,7 @@ export class NotesComponent extends Component {
         const grid = this.props.grid ? 'afterCard' : null;
         // console.log(CardView);
         // console.log("archiedsbkjf",this.props.archiveOpen);
-        console.log(this.props.archiveNotes, this.props.reminderNotes, this.props.trashNotes,this.state.label,this.props.label);
+        console.log(this.props.archiveNotes, this.props.reminderNotes, this.props.trashNotes,this.state.label,this.props.noteAnalysis);
         if(this.props.searchInputDashToNotes !== ""|| this.state.label){
             let searchNote
                 if(this.props.searchInputDashToNotes !== "" ){
@@ -355,6 +356,14 @@ export class NotesComponent extends Component {
                         cardStyle = {this.props.grid}
                     />
                 )
+        }
+        else if(this.props.noteAnalysis === true){
+            return(
+                <NoteAnalysis
+                    allNotes = {this.state.notes}
+                />
+            )
+            
         }
         else if (this.props.archiveNotes === true) {
             var notearr = this.state.notes.map((key) => {

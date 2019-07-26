@@ -11,7 +11,7 @@ import { getAllLabel } from "../services/noteServices";
 import EditLabel from '../components/editLabel'
 //import { height } from '@material-ui/system';
 //import {getNotes} from '../services/noteServices'
-import {Archive, DeleteOutlineRounded,CreateOutlined,LabelOutlined} from "@material-ui/icons"
+import {Archive, DeleteOutlineRounded,CreateOutlined,LabelOutlined, BarChart} from "@material-ui/icons"
 const theme = createMuiTheme({
     overrides : {
         MuiDrawer : {
@@ -43,7 +43,8 @@ class DrawerMenu extends Component {
             trashOpen  : false,
             reminderOpen : false,
             open    : false,
-            label   : []
+            label   : [],
+            noteAnalysis : false
         }
         this.showArchiver = this.showArchiver.bind(this)
         this.handleReminder = this.handleReminder.bind(this)
@@ -52,6 +53,8 @@ class DrawerMenu extends Component {
         this.editLabelHandler = this.editLabelHandler.bind(this)
         this.closeEditLabelDialog = this.closeEditLabelDialog.bind(this)
         this.showLabel = this.showLabel.bind(this)
+        this.noteAnalysis = this.noteAnalysis.bind(this)
+        
         this.newLabel = this.newLabel.bind(this)
         
     }
@@ -59,43 +62,62 @@ class DrawerMenu extends Component {
         await this.setState({
             archiveOpen : false,
             trashOpen :false,
-            reminderOpen : false
+            reminderOpen : false,
+            noteAnalysis : false
         })
         this.props.makeLabelFalse()
-        this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen)
-        console.log("handle Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen);
+        this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen,this.state.noteAnalysis)
+        console.log("handle Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen,this.state.noteAnalysis);
         
     }
     async showArchiver(){
         await this.setState({
             archiveOpen : true,
             trashOpen :false,
-            reminderOpen : false
+            reminderOpen : false,
+            noteAnalysis : false
         })
         this.props.makeLabelFalse()
-        this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen)    
-        console.log("Archive Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen);    
+        this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen,this.state.noteAnalysis)    
+        console.log("Archive Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen,this.state.noteAnalysis);    
     }
     async showTrash(){
         await this.setState({
             archiveOpen : false,
             trashOpen :true,
-            reminderOpen : false
+            reminderOpen : false,
+            noteAnalysis : false
         })
         this.props.makeLabelFalse()
-        this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen)   
-        console.log("Trash Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen);     
+        this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen,this.state.noteAnalysis)   
+        console.log("Trash Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen,this.state.noteAnalysis);     
     }
     async handleReminder(){
         await this.setState({
             archiveOpen : false,
             trashOpen :false,
-            reminderOpen : true
+            reminderOpen : true,
+            noteAnalysis : false
         })
         this.props.makeLabelFalse()
-        this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen)        
-        console.log("Reminder Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen);
+        this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen,this.state.noteAnalysis)        
+        console.log("Reminder Notes ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen,this.state.noteAnalysis);
     }
+    async noteAnalysis(){
+        console.log("props is -->",this);
+        await this.setState({
+            archiveOpen : false,
+            trashOpen :false,
+            reminderOpen : false,
+            noteAnalysis : true
+        })
+        this.props.makeLabelFalse()
+        this.props.archiveOpen(this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen,this.state.noteAnalysis)        
+        console.log("Notes Analysis ==>",this.state.archiveOpen,this.state.trashOpen,this.state.reminderOpen,this.state.noteAnalysis);
+        
+        // this.props.props.props.history.push('/chart')
+    }
+
     async editLabelHandler(event){
         await this.setState({
             open :  !this.state.open
@@ -132,6 +154,7 @@ class DrawerMenu extends Component {
             label : value
         })
     }
+   
     componentDidMount(){
         getAllLabel()
             .then(res => {
@@ -196,6 +219,10 @@ class DrawerMenu extends Component {
                                 Trash
                             </MenuItem>
                             <Divider/>
+                            <MenuItem onClick = {this.noteAnalysis}>
+                            <BarChart style = {{marginRight: "50px"}} />
+                                Note Analysis
+                            </MenuItem>
                         </Drawer>                       
                     </div>
                     <EditLabel
