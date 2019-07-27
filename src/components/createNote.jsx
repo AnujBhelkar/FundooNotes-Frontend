@@ -9,7 +9,7 @@ import Card from '@material-ui/core/Card'
 import Tools from '../components/tools'
 import {createNotes} from '../services/noteServices'
 import '../App.css'
-import { InputBase, IconButton, Button, ClickAwayListener } from '@material-ui/core';
+import { InputBase, IconButton, Button, ClickAwayListener,Chip } from '@material-ui/core';
 import { relative } from 'path';
 
 export class createNote extends Component {
@@ -22,13 +22,15 @@ export class createNote extends Component {
              title : '',
              description : '',
              archive : false,
-             color : 'rgb(255,255,255)'
+             color : 'rgb(255,255,255)',
+             label : []
         }
         this.titleHandler =  this.titleHandler.bind(this)
         this.descriptionHandler =  this.descriptionHandler.bind(this)
         this.clickNotes = this.clickNotes.bind(this)
         this.saveNotes = this.saveNotes.bind(this)
         this.handleColor = this.handleColor.bind(this)
+        this.handleSelectedLabel = this.handleSelectedLabel.bind(this)
     }
     clickNotes = event => {
         event.preventDefault();
@@ -56,6 +58,25 @@ export class createNote extends Component {
             archive :value
         })
     }
+    handleSelectedLabel = (id,value) =>{
+        console.log("create note label value is ==>",value);
+        this.setState({
+            label : value
+        })
+        console.log("label value is -->",this.setState.label);
+        
+    }
+    handleLabelOnDelete = value => {
+        var labels = this.state.label
+        for(var i = 0 ; i < labels.length ; i++){
+            if(labels[i] === value){
+                labels.splice(i,1)
+                this.setState({
+                    label : labels
+                })
+            }
+        }
+    }
 
     saveNotes = event => {
         event.preventDefault();
@@ -64,7 +85,8 @@ export class createNote extends Component {
             title : this.state.title,
             description : this.state.description,
             color       : this.state.color,
-            archive     : this.state.archive
+            archive     : this.state.archive,
+            label       : this.state.label
         }
         console.log("save Notes Data ==>",data);
         
@@ -114,10 +136,31 @@ export class createNote extends Component {
                                     value = { this.state.description }
                                     onChange = { this.descriptionHandler }
                                 />
+                                {this.state.label.length  > 0 ?
+                                    (
+                                        (this.state.label.length === 1 ?
+                                           <Chip
+                                                label = {this.state.label}
+                                                onDelete = {() =>this.handleLabelOnDelete(this.state.label)}
+                                           /> 
+                                        :
+                                            this.state.label.map((labels) =>
+                                                <div>
+                                                    <Chip
+                                                        label = {labels}
+                                                        onDelete = {() =>this.handleLabelOnDelete(labels)}
+                                                    />
+                                                </div>
+                                            )
+                                        )
+                                         
+                                    ) : null
+                                }
                                 <div className = "Component">
                                         <Tools
                                             changeColor = {this.handleColor}
                                             makeArchiveNoteProp = {this.handleArchiveNote}
+                                            selectedLabelProps = {this.handleSelectedLabel}
                                         />
                                     <div>
                                         <Button className= "closeNoteButton" onClick = {this.saveNotes}>close</Button>

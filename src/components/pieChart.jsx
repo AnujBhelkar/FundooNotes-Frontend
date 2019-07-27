@@ -66,24 +66,25 @@ export class NoteAnalysis extends Component {
         this.props.allNotes.map((key) => {
             if (key.label.length > 0) {
                 
-                if (key.trash === true) {
+                if (key.trash === true && key.label.length > 0) {
                     trashLabel = trashLabel + key.label.length
                     console.log("trashLAbel -->", trashLabel);
                 }
-                else if (key.reminder.length > 0 && key.archive === true) {
+                else if (key.reminder.length > 0 && key.archive === true && key.label.length > 0) {
                     archiveReminderLabel = archiveReminderLabel + key.label.length
-                    console.log("trashLAbel -->", archiveReminderLabel);
+                    console.log("reminder and archive LAbel -->", archiveReminderLabel);
                 }
-                else if (key.reminder.length > 0) {
+                else if (key.reminder.length > 0 && key.label.length > 0) {
                     reminderLabel = reminderLabel + key.label.length
-                    console.log("trashLAbel -->", reminderLabel);
+                    console.log("reminder LAbel -->", reminderLabel);
                 }
-                else if (key.archive === true){
+                else if (key.archive === true && key.label.length > 0){
                     archiveLabel = archiveLabel + key.label.length
-                    console.log("trashLAbel -->", trashLabel);
+                    console.log("archive LAbel -->", trashLabel);
                 }
                 else {
                     notelabel = notelabel + key.label.length
+                    // console.log("note LAbel -->", notelabel);     
                 }
             }
 
@@ -117,10 +118,10 @@ export class NoteAnalysis extends Component {
                     <span className="pieChart">
                         Analysis of notes
                     </span>
-                    
+                    <Divider style={{ position: 'relative',bottom: '-1rem'}}/>
                 </div>
-                    <Divider style={{ position: 'relative'}}/>
-                <div style={{ position: 'relative', top: '5rem' }}>
+                    
+                <div style={{ position: 'relative', top: '8rem' }}>
                     <Pie
                         data={this.state.labelData}
                         height="100%"
@@ -129,7 +130,7 @@ export class NoteAnalysis extends Component {
                         Analysis of Labels
                     </span>
                 </div>
-                <Divider style={{ position: 'relative',bottom: "-7rem"}}/>
+                <Divider style={{ position: 'relative',bottom: "-10rem"}}/>
             </div>
         )
     }
