@@ -3,6 +3,7 @@ import AppBarComponent from '../components/appBar'
 import CreateNote from '../components/createNote'
 import Notes from '../components/notes'
 import { FastForward } from '@material-ui/icons';
+import { askForPermissioToReceiveNotifications } from '../pushNotification';
 // import DialogTest from '../components/dialogTest';
 class DashboardPage extends Component {
     constructor(props) {
@@ -95,6 +96,9 @@ class DashboardPage extends Component {
         // this.setState({
         //     label : value
         // })
+    }
+    componentWillMount(){
+        askForPermissioToReceiveNotifications()
     }
     render() {
         console.log("Notes Value in Dashboard ==>",this.state.archiveNotes,this.state.trashNotes,this.state.reminderNotes,this.state.noteAnalysis);

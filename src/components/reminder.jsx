@@ -30,7 +30,12 @@ export class ReminderComponent extends Component {
         // console.log("event is ",event);
         
         const date = event.target.value
-        await this.setState({ date : date})
+
+        var newDate = new Date(date).toUTCString();
+        // var spliceDate = newDate.splice(25,3)
+        // console.log("date",spliceDate);
+        
+        await this.setState({ date : newDate})
         console.log("Date is -->",this.state.date);
         
     } 
@@ -38,12 +43,21 @@ export class ReminderComponent extends Component {
         this.setState({
             open : false
         })
+        console.log(this.state.date);
+        
         this.props.saveReminder(this.props.noteID,this.state.date)
     }
     closePopper = () => {
         this.setState({
             open : false
         })
+    }
+    setLaterTodayReminder = () => {
+        var date = new Date().toUTCString()
+        // this.props.saveReminder        
+        // var date = Math.floor((new Date()).getTime() / 1000)
+        console.log("date is -->",date);
+        
     }
     render() {
         var { open,anchorEl,placement} = this.state;
@@ -56,15 +70,18 @@ export class ReminderComponent extends Component {
                                 <MenuItem>
                                     Reminder
                                 </MenuItem>
-                                <MenuItem>
+                                <MenuItem onClick = {this.setLaterTodayReminder}>
                                     Later Today   8:00 PM
                                 </MenuItem>
                                 <MenuItem>
                                     Tomorrow      8:00 AM
                                 </MenuItem>
+                                <MenuItem>
+                                    Next Week     Mon,8:00 AM
+                                </MenuItem>
                                 <TextField
                                     type="datetime-local"
-                                    defaultValue="2019-07-20T10:28"
+                                    defaultValue="2019-05-24T10:30"
                                     onChange={this.handleDateTime}
                                     InputLabelProps={{
                                         shrink: true,
